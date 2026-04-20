@@ -2,6 +2,8 @@
 
 `SkillSwap Market` is a demo product plus automation playground built to support a strong API/UI test framework.
 
+Spring Boot + React demo product with a custom Java API test framework built on `RestAssured`, `JUnit 5`, and `Allure`.
+
 The project includes:
 - a backend with real business rules around roles, offers, slots, bookings, wallet credits, reviews, and admin actions
 - a frontend for realistic UI flows
@@ -14,6 +16,14 @@ The main focus of the repository is not only the demo app itself, but also the f
 - framework design
 - realistic business validations
 - reproducible test data and reset flow
+
+## Technical Focus
+
+- `Spring Boot` backend with business-oriented domain logic
+- `React` frontend for realistic product flows
+- custom Java API automation framework with actor-style actions, assertions, resolvers, and Allure-friendly reporting
+- current API stack: `RestAssured` + `JUnit 5` + `Allure`
+- planned UI automation direction: `Playwright + Java`
 
 ## What The Product Simulates
 
