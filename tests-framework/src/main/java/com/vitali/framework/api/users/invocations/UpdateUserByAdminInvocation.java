@@ -14,7 +14,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -75,7 +74,7 @@ public class UpdateUserByAdminInvocation implements GenericAPITestTemplateInvoca
                 case STATUS -> UserAssertions.checkUserDataIsCorrect(actualUser, new UserAssertions.AssertionParams()
                         .status(request.getStatus().name()));
                 case ROLES -> UserAssertions.checkUserDataIsCorrect(actualUser, new UserAssertions.AssertionParams()
-                        .roles(List.copyOf(request.getRoles())));
+                        .roles(request.getRoles()));
             }
         }
     }

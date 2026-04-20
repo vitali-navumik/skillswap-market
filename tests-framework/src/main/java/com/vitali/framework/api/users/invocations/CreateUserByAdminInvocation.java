@@ -2,7 +2,6 @@ package com.vitali.framework.api.users.invocations;
 
 import com.vitali.framework.api.users.assertions.UserAssertions;
 import com.vitali.framework.api.users.requests.CreateUserRequest;
-import com.vitali.framework.api.users.responses.CreateUserResponse;
 import com.vitali.framework.api.users.responses.GetUserResponse;
 import com.vitali.framework.enums.UserRole;
 import com.vitali.framework.enums.UserStatus;
@@ -14,7 +13,6 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -60,7 +58,7 @@ public class CreateUserByAdminInvocation implements GenericAPITestTemplateInvoca
                     .email(request.getEmail())
                     .firstName(request.getFirstName())
                     .lastName(request.getLastName())
-                    .roles(List.copyOf(roles))
+                    .roles(roles)
                     .status(expectedStatus.name())
                     .walletExpected(walletExpected));
         }

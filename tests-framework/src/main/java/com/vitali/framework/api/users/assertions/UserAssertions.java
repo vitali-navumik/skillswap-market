@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import org.assertj.core.api.SoftAssertions;
 
-import java.util.List;
+import java.util.Set;
 
 public class UserAssertions {
 
@@ -73,7 +73,7 @@ public class UserAssertions {
         private String firstName;
         private String lastName;
         private String displayName;
-        private List<UserRole> roles;
+        private Set<UserRole> roles;
         private String status;
         private Boolean walletExpected;
     }

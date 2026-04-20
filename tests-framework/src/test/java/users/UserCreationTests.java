@@ -34,21 +34,21 @@ class UserCreationTests {
     @ExtendWith(CreateUserByAdminInvocation.class)
     void adminCanCreateUser(@GlobalActionsPreset(UserPreset.ADMIN) ActionsContainer admin,
                             CreateUserTestCase testCase) {
-        CreateUserRequest request = testCase.buildRequest();
-        UUID publicId = admin.usersActions().createUserResponse(request).getPublicId();
+        CreateUserRequest userRequest = testCase.buildRequest();
+        UUID publicId = admin.usersActions().createUserResponse(userRequest).getPublicId();
         GetUserResponse createdUser = admin.usersActions().getUserResponse(publicId);
-        testCase.assertResult(createdUser, request);
+        testCase.assertResult(createdUser, userRequest);
     }
 
     @Test
     void adminCannotCreateUserWithDuplicateEmail(@GlobalActionsPreset(UserPreset.ADMIN) ActionsContainer admin,
                                                  @GlobalActionsPreset(UserPreset.STUDENT) ActionsContainer student) {
-        CreateUserRequest request = CreateUserRequest.builder()
+        CreateUserRequest userRequest = CreateUserRequest.builder()
                 .email(student.userInfo().getEmail())
                 .roles(Set.of(UserRole.STUDENT))
                 .build();
 
-        ConnectorResponse<CreateUserResponse> response = admin.usersActions().createUser(request);
+        ConnectorResponse<CreateUserResponse> response = admin.usersActions().createUser(userRequest);
 
         CommonAssertions.checkConflict(response);
         assertThat(response.getDataResponse()).contains("Email is already in use");
@@ -58,11 +58,11 @@ class UserCreationTests {
     @EnumSource(RoleNotAllowedToManageUsers.class)
     void userWithoutAdminRoleCannotCreateUser(RoleNotAllowedToManageUsers role) {
         ActionsContainer actor = resolveUserActions(role);
-        CreateUserRequest request = CreateUserRequest.builder()
+        CreateUserRequest userRequest = CreateUserRequest.builder()
                 .roles(Set.of(UserRole.STUDENT))
                 .build();
 
-        ConnectorResponse<CreateUserResponse> response = actor.usersActions().createUser(request);
+        ConnectorResponse<CreateUserResponse> response = actor.usersActions().createUser(userRequest);
 
         CommonAssertions.checkForbidden(response);
         assertThat(response.getDataResponse()).contains("Access denied");

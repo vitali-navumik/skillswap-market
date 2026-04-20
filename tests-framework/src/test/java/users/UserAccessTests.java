@@ -3,6 +3,7 @@ package users;
 import com.vitali.framework.CommonAssertions;
 import com.vitali.framework.api.users.assertions.UserAssertions;
 import com.vitali.framework.api.users.helpers.UsersHelper;
+import com.vitali.framework.api.users.requests.CreateUserRequest;
 import com.vitali.framework.api.users.providers.UserRoleProvider.RoleNotAllowedToManageUsers;
 import com.vitali.framework.api.users.responses.GetUserResponse;
 import com.vitali.framework.connectors.ConnectorResponse;
@@ -20,6 +21,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -37,7 +40,7 @@ class UserAccessTests {
                 .email(student.userInfo().getEmail())
                 .firstName(student.userInfo().getFirstName())
                 .lastName(student.userInfo().getLastName())
-                .roles(List.of(UserRole.STUDENT))
+                .roles(Set.of(UserRole.STUDENT))
                 .status(UserStatus.ACTIVE.name()));
     }
 
@@ -50,7 +53,7 @@ class UserAccessTests {
                 .email(student.userInfo().getEmail())
                 .firstName(student.userInfo().getFirstName())
                 .lastName(student.userInfo().getLastName())
-                .roles(List.of(UserRole.STUDENT))
+                .roles(Set.of(UserRole.STUDENT))
                 .status(UserStatus.ACTIVE.name()));
     }
 
@@ -63,6 +66,33 @@ class UserAccessTests {
 
         CommonAssertions.checkForbidden(response);
         assertThat(response.getDataResponse()).contains("Access denied");
+    }
+
+    @ParameterizedTest
+    @EnumSource(RoleNotAllowedToManageUsers.class)
+    void userWithoutAdminRoleCannotGetUserByPublicId(RoleNotAllowedToManageUsers role,
+                                                     @GlobalActionsPreset(UserPreset.STUDENT) ActionsContainer student) {
+        ActionsContainer actor = resolveUserActions(role);
+
+        ConnectorResponse<GetUserResponse> response = actor.usersActions().getUser(student.userInfo().getPublicId());
+
+        CommonAssertions.checkForbidden(response);
+        assertThat(response.getDataResponse()).contains("You can access only your own profile");
+    }
+
+    @Test
+    void adminCanSeeInactiveUserInUsersList(@GlobalActionsPreset(UserPreset.ADMIN) ActionsContainer admin) {
+        CreateUserRequest userRequest = CreateUserRequest.builder()
+                .roles(Set.of(UserRole.STUDENT))
+                .status(UserStatus.INACTIVE)
+                .build();
+
+        UUID publicId = admin.usersActions().createUserResponse(userRequest).getPublicId();
+
+        List<GetUserResponse> users = admin.usersActions().getUsersResponse();
+        assertThat(users)
+                .extracting(GetUserResponse::getPublicId)
+                .contains(publicId);
     }
 
     private ActionsContainer resolveUserActions(RoleNotAllowedToManageUsers role) {
