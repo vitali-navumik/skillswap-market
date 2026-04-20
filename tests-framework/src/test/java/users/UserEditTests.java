@@ -13,6 +13,7 @@ import com.vitali.framework.resolvers.ActionsContainer;
 import com.vitali.framework.resolvers.GlobalActionsParameterResolver;
 import com.vitali.framework.resolvers.GlobalActionsPreset;
 import com.vitali.framework.tags.UserTag;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +26,7 @@ class UserEditTests {
 
     @TestTemplate
     @ExtendWith(UpdateUserByAdminInvocation.class)
+    @DisplayName("Admin can update user")
     void adminCanUpdateUser(@GlobalActionsPreset(UserPreset.ADMIN) ActionsContainer admin,
                             @GlobalActionsPreset(UserPreset.STUDENT) ActionsContainer student,
                             UpdateUserTestCase testCase) {
@@ -35,6 +37,7 @@ class UserEditTests {
     }
 
     @Test
+    @DisplayName("Admin cannot update user with duplicate email")
     void adminCannotUpdateUserWithDuplicateEmail(@GlobalActionsPreset(UserPreset.ADMIN) ActionsContainer admin,
                                                  @GlobalActionsPreset(UserPreset.STUDENT) ActionsContainer student) {
         UpdateUserRequest request = UserMapper.INSTANCE.toUpdateUserRequest(student.userInfo())

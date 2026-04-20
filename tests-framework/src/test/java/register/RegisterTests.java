@@ -14,6 +14,7 @@ import com.vitali.framework.enums.UserRole;
 import com.vitali.framework.enums.UserStatus;
 import com.vitali.framework.tags.RegisterTag;
 import com.vitali.framework.utils.FakerGenerator;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -31,6 +32,7 @@ class RegisterTests {
 
     @ParameterizedTest
     @EnumSource(value = UserRole.class, names = {"STUDENT", "MENTOR"})
+    @DisplayName("Guest can register user")
     void guestCanRegisterUser(UserRole role) {
         RegisterUserRequest request = RegisterUserRequest.builder()
                 .roles(Set.of(role))
@@ -46,6 +48,7 @@ class RegisterTests {
     }
 
     @Test
+    @DisplayName("Guest cannot register admin user")
     void guestCannotRegisterAdminUser() {
         RegisterUserRequest request = RegisterUserRequest.builder()
                 .roles(Set.of(UserRole.ADMIN))
@@ -60,6 +63,7 @@ class RegisterTests {
     }
 
     @Test
+    @DisplayName("Guest cannot register with duplicate email")
     void guestCannotRegisterWithDuplicateEmail() {
         RegisterUserRequest request = RegisterUserRequest.builder()
                 .roles(Set.of(UserRole.STUDENT))
@@ -76,6 +80,7 @@ class RegisterTests {
     }
 
     @Test
+    @DisplayName("Guest cannot register with multiple roles")
     void guestCannotRegisterWithMultipleRoles() {
         RegisterUserRequest request = RegisterUserRequest.builder()
                 .roles(Set.of(UserRole.STUDENT, UserRole.MENTOR))
@@ -88,6 +93,7 @@ class RegisterTests {
     }
 
     @Test
+    @DisplayName("Guest can register with normalized email")
     void guestCanRegisterWithNormalizedEmail() {
         String normalizedEmail = FakerGenerator.randomEmail();
 
@@ -107,6 +113,7 @@ class RegisterTests {
     }
 
     @Test
+    @DisplayName("Guest cannot register with weak password")
     void guestCannotRegisterWithWeakPassword() {
         RegisterUserRequest request = RegisterUserRequest.builder()
                 .roles(Set.of(UserRole.STUDENT))
@@ -121,6 +128,7 @@ class RegisterTests {
 
     @TestTemplate
     @ExtendWith(RegisterUserRequiredFieldsInvocation.class)
+    @DisplayName("Guest cannot register without required fields")
     void guestCannotRegisterWithoutRequiredFields(RegisterRequiredFieldTestCase testCase) {
         RegisterUserRequest request = testCase.buildRequest();
 

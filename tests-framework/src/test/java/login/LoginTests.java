@@ -20,6 +20,7 @@ import com.vitali.framework.resolvers.GlobalActionsParameterResolver;
 import com.vitali.framework.resolvers.GlobalActionsPreset;
 import com.vitali.framework.tags.LoginTag;
 import com.vitali.framework.utils.FakerGenerator;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,6 +35,7 @@ public class LoginTests {
     private final LoginActions loginActions = new LoginActions(new Sender(null, new RestAssuredConnector()));
 
     @Test
+    @DisplayName("Guest can login after successful registration")
     void guestCanLoginAfterSuccessfulRegistration() {
         RegisterUserRequest userRequest = RegisterUserRequest.builder()
                 .roles(Set.of(UserRole.STUDENT))
@@ -50,6 +52,7 @@ public class LoginTests {
     }
 
     @Test
+    @DisplayName("Guest can login with normalized email")
     void guestCanLoginWithNormalizedEmail() {
         String normalizedEmail = FakerGenerator.randomEmail();
         RegisterUserRequest userRequest = RegisterUserRequest.builder()
@@ -69,6 +72,7 @@ public class LoginTests {
     }
 
     @Test
+    @DisplayName("Inactive user cannot login")
     void inactiveUserCannotLogin(@GlobalActionsPreset(UserPreset.ADMIN) ActionsContainer admin) {
         CreateUserRequest userRequest = CreateUserRequest.builder()
                 .roles(Set.of(UserRole.STUDENT))
@@ -82,6 +86,7 @@ public class LoginTests {
     }
 
     @Test
+    @DisplayName("Guest cannot login with wrong password")
     void guestCannotLoginWithWrongPassword() {
         RegisterUserRequest userRequest = RegisterUserRequest.builder()
                 .roles(Set.of(UserRole.STUDENT))
@@ -94,6 +99,7 @@ public class LoginTests {
     }
 
     @Test
+    @DisplayName("Guest cannot login with unknown email")
     void guestCannotLoginWithUnknownEmail() {
         ConnectorResponse<LoginResponse> response = loginActions.login(FakerGenerator.randomEmail(), "StrongPass1");
 
@@ -102,6 +108,7 @@ public class LoginTests {
 
     @TestTemplate
     @ExtendWith(LoginRequiredFieldsInvocation.class)
+    @DisplayName("Guest cannot login without required fields")
     void guestCannotLoginWithoutRequiredFields(LoginRequiredFieldTestCase testCase) {
         ConnectorResponse<LoginResponse> response = loginActions.login(testCase.email(), testCase.password());
 
@@ -109,6 +116,7 @@ public class LoginTests {
     }
 
     @Test
+    @DisplayName("Guest cannot login with whitespace only credentials")
     void guestCannotLoginWithWhitespaceOnlyCredentials() {
         ConnectorResponse<LoginResponse> response = loginActions.login("   ", "   ");
 
@@ -116,6 +124,7 @@ public class LoginTests {
     }
 
     @Test
+    @DisplayName("Guest cannot login with email having leading or trailing spaces")
     void guestCannotLoginWithEmailHavingLeadingOrTrailingSpaces() {
         RegisterUserRequest userRequest = RegisterUserRequest.builder()
                 .roles(Set.of(UserRole.STUDENT))

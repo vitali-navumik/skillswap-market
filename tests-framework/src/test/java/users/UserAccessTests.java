@@ -15,6 +15,7 @@ import com.vitali.framework.resolvers.GlobalActionsParameterResolver;
 import com.vitali.framework.resolvers.GlobalActionsPreset;
 import com.vitali.framework.resolvers.UserCreationHelper;
 import com.vitali.framework.tags.UserTag;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -31,6 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UserAccessTests {
 
     @Test
+    @DisplayName("Admin can get users list")
     void adminCanGetUsersList(@GlobalActionsPreset(UserPreset.ADMIN) ActionsContainer admin,
                               @GlobalActionsPreset(UserPreset.STUDENT) ActionsContainer student) {
         List<GetUserResponse> users = admin.usersActions().getUsersResponse();
@@ -45,6 +47,7 @@ class UserAccessTests {
     }
 
     @Test
+    @DisplayName("Admin can get user by public id")
     void adminCanGetUserByPublicId(@GlobalActionsPreset(UserPreset.ADMIN) ActionsContainer admin,
                                    @GlobalActionsPreset(UserPreset.STUDENT) ActionsContainer student) {
         GetUserResponse user = admin.usersActions().getUserResponse(student.userInfo().getPublicId());
@@ -59,6 +62,7 @@ class UserAccessTests {
 
     @ParameterizedTest
     @EnumSource(RoleNotAllowedToManageUsers.class)
+    @DisplayName("User without admin role cannot get users list")
     void userWithoutAdminRoleCannotGetUsersList(RoleNotAllowedToManageUsers role) {
         ActionsContainer actor = resolveUserActions(role);
 
@@ -72,6 +76,7 @@ class UserAccessTests {
 
     @ParameterizedTest
     @EnumSource(RoleNotAllowedToManageUsers.class)
+    @DisplayName("User without admin role cannot get other user by public id")
     void userWithoutAdminRoleCannotGetUserByPublicId(RoleNotAllowedToManageUsers role,
                                                      @GlobalActionsPreset(UserPreset.STUDENT) ActionsContainer student) {
         ActionsContainer actor = resolveUserActions(role);
@@ -85,6 +90,7 @@ class UserAccessTests {
     }
 
     @Test
+    @DisplayName("Admin can see inactive user in users list")
     void adminCanSeeInactiveUserInUsersList(@GlobalActionsPreset(UserPreset.ADMIN) ActionsContainer admin) {
         CreateUserRequest userRequest = CreateUserRequest.builder()
                 .roles(Set.of(UserRole.STUDENT))

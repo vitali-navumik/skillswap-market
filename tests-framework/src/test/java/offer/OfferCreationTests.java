@@ -8,6 +8,7 @@ import com.vitali.framework.resolvers.ActionsContainer;
 import com.vitali.framework.resolvers.GlobalActionsParameterResolver;
 import com.vitali.framework.resolvers.GlobalActionsPreset;
 import com.vitali.framework.tags.OfferTag;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -18,6 +19,7 @@ import java.util.UUID;
 class OfferCreationTests {
 
     @Test
+    @DisplayName("Mentor can create offer")
     void mentorCanCreateOffer(@GlobalActionsPreset(UserPreset.MENTOR) ActionsContainer mentor) {
         CreateOfferRequest offerRequest = CreateOfferRequest.builder().build();
 

@@ -15,6 +15,7 @@ import com.vitali.framework.resolvers.GlobalActionsParameterResolver;
 import com.vitali.framework.resolvers.GlobalActionsPreset;
 import com.vitali.framework.resolvers.UserCreationHelper;
 import com.vitali.framework.tags.UserTag;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,6 +33,7 @@ class UserCreationTests {
 
     @TestTemplate
     @ExtendWith(CreateUserByAdminInvocation.class)
+    @DisplayName("Admin can create user")
     void adminCanCreateUser(@GlobalActionsPreset(UserPreset.ADMIN) ActionsContainer admin,
                             CreateUserTestCase testCase) {
         CreateUserRequest userRequest = testCase.buildRequest();
@@ -41,6 +43,7 @@ class UserCreationTests {
     }
 
     @Test
+    @DisplayName("Admin cannot create user with duplicate email")
     void adminCannotCreateUserWithDuplicateEmail(@GlobalActionsPreset(UserPreset.ADMIN) ActionsContainer admin,
                                                  @GlobalActionsPreset(UserPreset.STUDENT) ActionsContainer student) {
         CreateUserRequest userRequest = CreateUserRequest.builder()
@@ -58,6 +61,7 @@ class UserCreationTests {
 
     @ParameterizedTest
     @EnumSource(RoleNotAllowedToManageUsers.class)
+    @DisplayName("User without admin role cannot create user")
     void userWithoutAdminRoleCannotCreateUser(RoleNotAllowedToManageUsers role) {
         ActionsContainer actor = resolveUserActions(role);
         CreateUserRequest userRequest = CreateUserRequest.builder()
