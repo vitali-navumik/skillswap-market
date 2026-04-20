@@ -11,4 +11,6 @@ public interface SkillOfferRepository extends JpaRepository<SkillOffer, Long>, J
     Optional<SkillOffer> findByPublicId(UUID publicId);
 
     Optional<SkillOffer> findByMentorIdAndTitleIgnoreCase(Long mentorId, String title);
+
+    Optional<SkillOffer> findByMentorIdAndIdempotencyKey(Long mentorId, String idempotencyKey);
 }

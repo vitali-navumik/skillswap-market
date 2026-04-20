@@ -14,6 +14,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.time.Instant;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -28,7 +29,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "skill_offers")
+@Table(
+        name = "skill_offers",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uk_skill_offers_mentor_idempotency_key", columnNames = {"mentor_id", "idempotency_key"})
+        }
+)
 public class SkillOffer {
 
     @Id
@@ -56,6 +62,9 @@ public class SkillOffer {
 
     @Column(name = "price_credits", nullable = false)
     private Integer priceCredits;
+
+    @Column(name = "idempotency_key", length = 200)
+    private String idempotencyKey;
 
     @Column(name = "cancellation_policy_hours", nullable = false)
     private Integer cancellationPolicyHours;

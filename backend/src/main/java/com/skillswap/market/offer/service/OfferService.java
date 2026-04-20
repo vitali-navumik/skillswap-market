@@ -15,8 +15,10 @@ import com.skillswap.market.user.entity.User;
 import com.skillswap.market.user.repository.UserRepository;
 import com.skillswap.market.user.support.UserNameFormatter;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -104,9 +106,17 @@ public class OfferService {
     }
 
     @Transactional
-    public OfferResponse createOffer(AppUserPrincipal principal, CreateOfferRequest request) {
+    public OfferResponse createOffer(AppUserPrincipal principal, CreateOfferRequest request, String idempotencyKey) {
         requireRole(principal, Role.MENTOR, "MENTOR role is required to create an offer");
+        String normalizedIdempotencyKey = normalizeIdempotencyKey(idempotencyKey);
         User mentor = getUser(principal.id());
+
+        if (normalizedIdempotencyKey != null) {
+            Optional<SkillOffer> existingOffer = skillOfferRepository.findByMentorIdAndIdempotencyKey(principal.id(), normalizedIdempotencyKey);
+            if (existingOffer.isPresent()) {
+                return toResponse(existingOffer.get());
+            }
+        }
 
         SkillOffer offer = SkillOffer.builder()
                 .mentor(mentor)
@@ -115,11 +125,26 @@ public class OfferService {
                 .category(request.category().trim())
                 .durationMinutes(request.durationMinutes())
                 .priceCredits(request.priceCredits())
+                .idempotencyKey(normalizedIdempotencyKey)
                 .cancellationPolicyHours(24)
                 .status(request.status() == null ? OfferStatus.DRAFT : request.status())
                 .build();
 
-        return toResponse(skillOfferRepository.save(offer));
+        try {
+            return toResponse(skillOfferRepository.save(offer));
+        } catch (DataIntegrityViolationException ex) {
+            if (normalizedIdempotencyKey != null) {
+                return skillOfferRepository.findByMentorIdAndIdempotencyKey(principal.id(), normalizedIdempotencyKey)
+                        .map(this::toResponse)
+                        .orElseThrow(() -> ex);
+            }
+            throw ex;
+        }
+    }
+
+    @Transactional
+    public OfferResponse createOffer(AppUserPrincipal principal, CreateOfferRequest request) {
+        return createOffer(principal, request, null);
     }
 
     @Transactional
@@ -193,6 +218,19 @@ public class OfferService {
     private User getUser(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found"));
+    }
+
+    private String normalizeIdempotencyKey(String idempotencyKey) {
+        if (idempotencyKey == null) {
+            return null;
+        }
+
+        String normalized = idempotencyKey.trim();
+        if (normalized.isBlank()) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Idempotency-Key must not be blank");
+        }
+
+        return normalized;
     }
 
     private void requireRole(AppUserPrincipal principal, Role requiredRole, String message) {

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -20,6 +21,7 @@ import com.skillswap.market.user.entity.Role;
 import com.skillswap.market.user.entity.User;
 import com.skillswap.market.user.repository.UserRepository;
 import java.util.EnumSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -77,6 +79,58 @@ class OfferServiceTest {
         )))
                 .isInstanceOf(ApiException.class)
                 .satisfies(exception -> assertThat(((ApiException) exception).getStatus()).isEqualTo(HttpStatus.FORBIDDEN));
+    }
+
+    @Test
+    void createOfferReturnsExistingOfferForSameIdempotencyKey() {
+        AppUserPrincipal mentorPrincipal = principal(11L, Role.MENTOR);
+        CreateOfferRequest request = new CreateOfferRequest(
+                "SQL mentoring",
+                "Learn joins",
+                "Databases",
+                60,
+                50,
+                OfferStatus.DRAFT
+        );
+        User mentor = user(11L, "mentor@example.com");
+        SkillOffer existingOffer = SkillOffer.builder()
+                .id(200L)
+                .publicId(UUID.fromString("33333333-3333-4333-8333-333333333333"))
+                .mentor(mentor)
+                .title("Existing offer")
+                .description("desc")
+                .category("Databases")
+                .durationMinutes(60)
+                .priceCredits(50)
+                .idempotencyKey("offer-create-1")
+                .cancellationPolicyHours(24)
+                .status(OfferStatus.DRAFT)
+                .build();
+
+        when(userRepository.findById(11L)).thenReturn(Optional.of(mentor));
+        when(skillOfferRepository.findByMentorIdAndIdempotencyKey(11L, "offer-create-1"))
+                .thenReturn(Optional.of(existingOffer));
+
+        OfferResponse response = offerService.createOffer(mentorPrincipal, request, "offer-create-1");
+
+        assertThat(response.publicId()).isEqualTo(existingOffer.getPublicId());
+        verify(skillOfferRepository).findByMentorIdAndIdempotencyKey(11L, "offer-create-1");
+    }
+
+    @Test
+    void createOfferRejectsBlankIdempotencyKey() {
+        AppUserPrincipal mentorPrincipal = principal(11L, Role.MENTOR);
+
+        assertThatThrownBy(() -> offerService.createOffer(mentorPrincipal, new CreateOfferRequest(
+                "SQL mentoring",
+                "Learn joins",
+                "Databases",
+                60,
+                50,
+                OfferStatus.DRAFT
+        ), "   "))
+                .isInstanceOf(ApiException.class)
+                .satisfies(exception -> assertThat(((ApiException) exception).getStatus()).isEqualTo(HttpStatus.BAD_REQUEST));
     }
 
     @Test

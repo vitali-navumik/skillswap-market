@@ -24,10 +24,22 @@ public final class OfferAssertions {
                     .isNotNull();
         }
 
+        if (params.id() != null) {
+            softly.assertThat(offer.getId())
+                    .as("Offer id is correct")
+                    .isEqualTo(params.id());
+        }
+
         if (params.publicIdExpected() != null && params.publicIdExpected()) {
             softly.assertThat(offer.getPublicId())
                     .as("Offer public id is generated")
                     .isNotNull();
+        }
+
+        if (params.publicId() != null) {
+            softly.assertThat(offer.getPublicId())
+                    .as("Offer public id is correct")
+                    .isEqualTo(params.publicId());
         }
 
         if (params.mentorId() != null) {
@@ -84,7 +96,9 @@ public final class OfferAssertions {
     @Data
     @Accessors(fluent = true)
     public static class AssertionParams {
+        private Long id;
         private Boolean idExpected;
+        private UUID publicId;
         private Boolean publicIdExpected;
         private Long mentorId;
         private UUID mentorPublicId;

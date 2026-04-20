@@ -22,9 +22,22 @@ public final class OfferActions {
         return sender.send(OfferApi.createOffer(request));
     }
 
+    @Step("Create offer with idempotency key")
+    public ConnectorResponse<OfferResponse> createOffer(CreateOfferRequest request, String idempotencyKey) {
+        return sender.send(OfferApi.createOffer(request, idempotencyKey));
+    }
+
     @Step("Create offer")
     public OfferResponse createOfferResponse(CreateOfferRequest request) {
         return createOffer(request)
+                .ifOk()
+                .getDataResponse(new TypeRef<>() {
+                });
+    }
+
+    @Step("Create offer with idempotency key")
+    public OfferResponse createOfferResponse(CreateOfferRequest request, String idempotencyKey) {
+        return createOffer(request, idempotencyKey)
                 .ifOk()
                 .getDataResponse(new TypeRef<>() {
                 });

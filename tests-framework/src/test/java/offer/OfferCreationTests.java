@@ -37,4 +37,18 @@ class OfferCreationTests {
                 .status(offerRequest.getStatus())
                 .publicIdExpected(true));
     }
+
+    @Test
+    @DisplayName("Mentor can safely retry offer creation with idempotency key")
+    void mentorCanRetryCreateOfferWithSameIdempotencyKey(@GlobalActionsPreset(UserPreset.MENTOR) ActionsContainer mentor) {
+        CreateOfferRequest offerRequest = CreateOfferRequest.builder().build();
+        String idempotencyKey = UUID.randomUUID().toString();
+
+        OfferResponse firstOffer = mentor.offerActions().createOfferResponse(offerRequest, idempotencyKey);
+        OfferResponse secondOffer = mentor.offerActions().createOfferResponse(offerRequest, idempotencyKey);
+
+        OfferAssertions.checkOfferDataIsCorrect(secondOffer, new OfferAssertions.AssertionParams()
+                .id(firstOffer.getId())
+                .publicId(firstOffer.getPublicId()));
+    }
 }
