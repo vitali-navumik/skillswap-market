@@ -1,0 +1,69 @@
+plugins {
+    id 'java'
+}
+
+ext {
+    allureVersion = '2.29.0'
+}
+
+group = 'com.skillswap.market'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(17) }
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.rest-assured:rest-assured:5.4.0'
+    implementation 'io.rest-assured:json-path:5.4.0'
+    implementation "io.qameta.allure:allure-java-commons:$allureVersion"
+    implementation "io.qameta.allure:allure-rest-assured:$allureVersion"
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.2'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.2'
+    implementation 'com.github.javafaker:javafaker:1.0.2'
+    implementation 'org.slf4j:slf4j-api:2.0.13'
+    implementation 'ch.qos.logback:logback-classic:1.5.6'
+    implementation 'org.junit.jupiter:junit-jupiter-api:5.11.0'
+    implementation 'org.assertj:assertj-core:3.26.3'
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+    annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    testCompileOnly 'org.projectlombok:lombok:1.18.34'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+    testImplementation platform('org.junit:junit-bom:5.11.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation "io.qameta.allure:allure-junit5:$allureVersion"
+    testImplementation "io.qameta.allure:allure-assertj:$allureVersion"
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+    systemProperty 'allure.results.directory', file("$buildDir/allure-results")
+}
+
+tasks.register('allureReport', Exec) {
+    group = 'verification'
+    description = 'Generate Allure report from build/allure-results'
+    dependsOn test
+    commandLine 'cmd', '/c', 'allure', 'generate', "$buildDir/allure-results", '-o', "$buildDir/reports/allure-report", '--clean'
+}
+
+tasks.register('allureServe', Exec) {
+    group = 'verification'
+    description = 'Serve Allure report from build/allure-results'
+    dependsOn test
+    commandLine 'cmd', '/c', 'allure', 'serve', "$buildDir/allure-results"
+}
