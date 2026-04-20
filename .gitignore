@@ -21,6 +21,7 @@ backend/target/
 
 frontend/node_modules/
 frontend/dist/
+frontend/*.tsbuildinfo
 
 .m2/
 .playwright-cli/
