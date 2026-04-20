@@ -51,7 +51,9 @@ class UserCreationTests {
         ConnectorResponse<CreateUserResponse> response = admin.usersActions().createUser(userRequest);
 
         CommonAssertions.checkConflict(response);
-        assertThat(response.getDataResponse()).contains("Email is already in use");
+        assertThat(response.getDataResponse())
+                .as("Duplicated email is not allowed")
+                .contains("Email is already in use");
     }
 
     @ParameterizedTest
@@ -65,7 +67,9 @@ class UserCreationTests {
         ConnectorResponse<CreateUserResponse> response = actor.usersActions().createUser(userRequest);
 
         CommonAssertions.checkForbidden(response);
-        assertThat(response.getDataResponse()).contains("Access denied");
+        assertThat(response.getDataResponse())
+                .as("Only admin can create users")
+                .contains("Access denied");
     }
 
     private ActionsContainer resolveUserActions(RoleNotAllowedToManageUsers role) {

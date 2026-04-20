@@ -65,7 +65,9 @@ class UserAccessTests {
         ConnectorResponse<List<GetUserResponse>> response = actor.usersActions().getUsers();
 
         CommonAssertions.checkForbidden(response);
-        assertThat(response.getDataResponse()).contains("Access denied");
+        assertThat(response.getDataResponse())
+                .as("Only admin can access users list")
+                .contains("Access denied");
     }
 
     @ParameterizedTest
@@ -77,7 +79,9 @@ class UserAccessTests {
         ConnectorResponse<GetUserResponse> response = actor.usersActions().getUser(student.userInfo().getPublicId());
 
         CommonAssertions.checkForbidden(response);
-        assertThat(response.getDataResponse()).contains("You can access only your own profile");
+        assertThat(response.getDataResponse())
+                .as("Only admin can access other users' profiles")
+                .contains("You can access only your own profile");
     }
 
     @Test
@@ -91,6 +95,7 @@ class UserAccessTests {
 
         List<GetUserResponse> users = admin.usersActions().getUsersResponse();
         assertThat(users)
+                .as("Inactive user should be present in users list")
                 .extracting(GetUserResponse::getPublicId)
                 .contains(publicId);
     }

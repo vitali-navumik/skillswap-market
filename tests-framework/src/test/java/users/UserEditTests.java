@@ -45,6 +45,8 @@ class UserEditTests {
         ConnectorResponse<UpdateUserResponse> response = admin.usersActions().updateUser(request);
 
         CommonAssertions.checkConflict(response);
-        assertThat(response.getDataResponse()).contains("Email is already in use");
+        assertThat(response.getDataResponse())
+                .as("Duplicated email is not allowed")
+                .contains("Email is already in use");
     }
 }

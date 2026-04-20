@@ -17,48 +17,48 @@ public class UserAssertions {
 
         if (params.email() != null) {
             softly.assertThat(user.getEmail())
-                    .as("User email")
+                    .as("User email is correct")
                     .isEqualTo(params.email());
         }
 
         if (params.firstName() != null) {
             softly.assertThat(user.getFirstName())
-                    .as("User first name")
+                    .as("User first name is correct")
                     .isEqualTo(params.firstName());
         }
 
         if (params.lastName() != null) {
             softly.assertThat(user.getLastName())
-                    .as("User last name")
+                    .as("User last name is correct")
                     .isEqualTo(params.lastName());
         }
 
         if (params.displayName() != null) {
             softly.assertThat(user.getDisplayName())
-                    .as("User display name")
+                    .as("User display name is correct")
                     .isEqualTo(params.displayName());
         }
 
         if (params.status() != null) {
             softly.assertThat(String.valueOf(user.getStatus()))
-                    .as("User status")
+                    .as("User status is correct")
                     .isEqualTo(params.status());
         }
 
         if (params.roles() != null) {
             softly.assertThat(user.getRoles())
-                    .as("User roles")
+                    .as("User roles are correct")
                     .containsExactlyInAnyOrderElementsOf(params.roles());
         }
 
         if (params.walletExpected() != null) {
             if (params.walletExpected()) {
                 softly.assertThat(user.getWalletPublicId())
-                        .as("User wallet public id")
+                        .as("User wallet public id is correct")
                         .isNotNull();
             } else {
                 softly.assertThat(user.getWalletPublicId())
-                        .as("User wallet public id")
+                        .as("User wallet public id is correct")
                         .isNull();
             }
         }
