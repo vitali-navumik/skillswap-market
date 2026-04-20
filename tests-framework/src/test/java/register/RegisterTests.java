@@ -75,6 +75,37 @@ class RegisterTests {
     }
 
     @Test
+    void guestCannotRegisterWithMultipleRoles() {
+        RegisterUserRequest request = RegisterUserRequest.builder()
+                .roles(Set.of(UserRole.STUDENT, UserRole.MENTOR))
+                .build();
+
+        ConnectorResponse<RegisterUserResponse> response = registerActions.register(request);
+
+        CommonAssertions.checkUnprocessableEntityWithErrorMessage(response, new CommonAssertions.Params()
+                .errorMessage("Select exactly one role"));
+    }
+
+    @Test
+    void guestCanRegisterWithNormalizedEmail() {
+        String normalizedEmail = "user." + System.nanoTime() + "@example.com";
+
+        RegisterUserRequest request = RegisterUserRequest.builder()
+                .email(normalizedEmail.toUpperCase())
+                .roles(Set.of(UserRole.STUDENT))
+                .build();
+
+        RegisterUserResponse registerUserResponse = registerActions.registerResponse(request);
+
+        RegisterAssertions.checkRegistrationDataIsCorrect(registerUserResponse, new RegisterAssertions.AssertionParams()
+                .idExpected(true)
+                .publicIdExpected(true)
+                .email(normalizedEmail)
+                .roles(request.getRoles())
+                .status(UserStatus.ACTIVE.name()));
+    }
+
+    @Test
     void guestCannotRegisterWithWeakPassword() {
         RegisterUserRequest request = RegisterUserRequest.builder()
                 .roles(Set.of(UserRole.STUDENT))
