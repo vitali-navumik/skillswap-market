@@ -75,7 +75,7 @@ class AuthServiceTest {
         assertThat(savedUser.getEmail()).isEqualTo("user@example.com");
         assertThat(savedUser.getDisplayName()).isEqualTo("Ivan Petrov");
         assertThat(savedUser.getRoles()).containsExactly(Role.STUDENT);
-        assertThat(response.userId()).isEqualTo(42L);
+        assertThat(response.id()).isEqualTo(42L);
         assertThat(response.email()).isEqualTo("user@example.com");
     }
 

@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public record RegisterResponse(
-        Long userId,
+        Long id,
         UUID publicId,
         String email,
         Set<Role> roles,
