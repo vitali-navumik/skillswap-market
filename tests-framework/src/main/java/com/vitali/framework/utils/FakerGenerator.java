@@ -3,6 +3,8 @@ package com.vitali.framework.utils;
 import com.github.javafaker.Faker;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
@@ -13,7 +15,7 @@ public final class FakerGenerator {
     public static String randomEmail() {
         String first = FAKER.name().firstName().toLowerCase().replaceAll("[^a-z0-9]", "");
         String last = FAKER.name().lastName().toLowerCase().replaceAll("[^a-z0-9]", "");
-        return String.format("%s.%s.%d@test.local", first, last, System.currentTimeMillis());
+        return String.format("%s.%s.%d.%s@test.local", first, last, System.currentTimeMillis(), UUID.randomUUID().toString().substring(0, 8));
     }
 
     public static String randomPassword() {
