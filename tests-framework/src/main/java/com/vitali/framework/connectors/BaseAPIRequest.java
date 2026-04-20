@@ -13,6 +13,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import static com.vitali.framework.enums.ContentType.APPLICATION_JSON;
+import static com.vitali.framework.enums.ContentType.MULTIPART_FORM_DATA;
+
 @Getter
 @AllArgsConstructor
 @Builder
@@ -40,7 +43,7 @@ public class BaseAPIRequest implements ConnectorRequest {
         private Map<String, ?> formParams;
         private List<MultiPartParam> multiPartParams = new ArrayList<>();
         private Map<String, String> headers = new HashMap<>();
-        private String contentType = "application/json";
+        private String contentType = APPLICATION_JSON.getValue();
         private Map<String, ?> cookies;
         private Object requestBody;
         private String basePath;
@@ -86,7 +89,7 @@ public class BaseAPIRequest implements ConnectorRequest {
             }
 
             if (!multiPartParams.isEmpty()) {
-                contentType = "multipart/form-data";
+                contentType = MULTIPART_FORM_DATA.getValue();
             }
             return new BaseAPIRequest(baseUri, path, method, pathParams, queryParams, formParams, multiPartParams, headers, contentType, cookies, requestBody, basePath);
         }
