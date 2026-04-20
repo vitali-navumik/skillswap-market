@@ -15,6 +15,7 @@ import com.vitali.framework.resolvers.GlobalActionsParameterResolver;
 import com.vitali.framework.resolvers.GlobalActionsPreset;
 import com.vitali.framework.resolvers.UserCreationHelper;
 import com.vitali.framework.tags.OfferTag;
+import com.vitali.framework.utils.JwtTokenGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -90,9 +91,53 @@ class OfferCreationTests {
         CommonAssertions.checkForbidden(response);
     }
 
+    @Test
+    @DisplayName("User cannot create offer with malformed token")
+    void userCannotCreateOfferWithMalformedToken() {
+        CreateOfferRequest offerRequest = CreateOfferRequest.builder().build();
+
+        ConnectorResponse<OfferResponse> response = offerActionsWithToken("invalid-token").createOffer(offerRequest);
+
+        CommonAssertions.checkForbidden(response);
+    }
+
+    @Test
+    @DisplayName("User cannot create offer with expired token")
+    void userCannotCreateOfferWithExpiredToken(@GlobalActionsPreset(UserPreset.MENTOR) ActionsContainer mentor) {
+        CreateOfferRequest offerRequest = CreateOfferRequest.builder().build();
+        String expiredToken = JwtTokenGenerator.expiredToken(
+                mentor.userInfo().getEmail(),
+                mentor.userInfo().getId(),
+                java.util.Set.of("MENTOR")
+        );
+
+        ConnectorResponse<OfferResponse> response = offerActionsWithToken(expiredToken).createOffer(offerRequest);
+
+        CommonAssertions.checkForbidden(response);
+    }
+
+    @Test
+    @DisplayName("User cannot create offer with invalid token signature")
+    void userCannotCreateOfferWithInvalidTokenSignature(@GlobalActionsPreset(UserPreset.MENTOR) ActionsContainer mentor) {
+        CreateOfferRequest offerRequest = CreateOfferRequest.builder().build();
+        String invalidSignatureToken = JwtTokenGenerator.tokenWithInvalidSignature(
+                mentor.userInfo().getEmail(),
+                mentor.userInfo().getId(),
+                java.util.Set.of("MENTOR")
+        );
+
+        ConnectorResponse<OfferResponse> response = offerActionsWithToken(invalidSignatureToken).createOffer(offerRequest);
+
+        CommonAssertions.checkForbidden(response);
+    }
+
     private ActionsContainer resolveUserActions(RoleNotAllowedToCreateOffer role) {
         return switch (role) {
             case STUDENT, ADMIN -> UserCreationHelper.createUserAndLogIn(UserPreset.valueOf(role.name()));
         };
+    }
+
+    private OfferActions offerActionsWithToken(String token) {
+        return new OfferActions(new Sender(token, new RestAssuredConnector()));
     }
 }
