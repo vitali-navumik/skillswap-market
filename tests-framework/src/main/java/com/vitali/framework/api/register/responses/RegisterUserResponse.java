@@ -1,4 +1,4 @@
-package com.vitali.framework.api.auth.responses;
+package com.vitali.framework.api.register.responses;
 
 import com.vitali.framework.enums.UserRole;
 import com.vitali.framework.enums.UserStatus;
@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Data
-public class RegisterResponse {
+public class RegisterUserResponse {
     private Long id;
     private UUID publicId;
     private String email;

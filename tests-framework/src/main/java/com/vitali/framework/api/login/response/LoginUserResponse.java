@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Data
-public class AuthUserResponse {
+public class LoginUserResponse {
     private Long id;
     private UUID publicId;
     private UUID walletPublicId;

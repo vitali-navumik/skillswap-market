@@ -514,7 +514,7 @@ Restrictions:
 
 ### 10.1 Auth
 
-#### POST `/api/auth/register`
+#### POST `/api/register/register`
 
 Request:
 - `email`
@@ -533,7 +533,7 @@ Response:
 - `roles`
 - `status`
 
-#### POST `/api/auth/login`
+#### POST `/api/register/login`
 
 Request:
 - `email`
@@ -1005,7 +1005,7 @@ The UI must take the user's roles into account and hide unavailable actions.
 
 Recommended package structure:
 
-- `auth`
+- `register`
 - `user`
 - `offer`
 - `slot`
@@ -1099,7 +1099,7 @@ Key requirements:
 - set up backend skeleton
 - configure PostgreSQL and Flyway
 - configure security and JWT
-- implement auth + users + roles
+- implement register + users + roles
 
 ### Phase 2
 

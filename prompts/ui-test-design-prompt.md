@@ -175,7 +175,7 @@ For each feature or area, explicitly consider:
 16. Grouping strategy
 - Group UI scenarios by business area rather than only by page name where that is more useful.
 - Typical UI design groups may include:
-  - auth
+  - register
   - catalog
   - offer management
   - slot management

@@ -548,7 +548,7 @@
 
 ### 10.1 Auth
 
-#### POST `/api/auth/register`
+#### POST `/api/register/register`
 
 Request:
 - `email`
@@ -567,7 +567,7 @@ Response:
 - `roles`
 - `status`
 
-#### POST `/api/auth/login`
+#### POST `/api/register/login`
 
 Request:
 - `email`
@@ -1113,7 +1113,7 @@ UI должен учитывать роли пользователя и скры
 
 Рекомендуемая package-структура:
 
-- `auth`
+- `register`
 - `user`
 - `offer`
 - `slot`
@@ -1207,7 +1207,7 @@ Seed data должны быть детерминированными.
 - поднять backend skeleton
 - настроить PostgreSQL и Flyway
 - настроить security и JWT
-- реализовать auth + users + roles
+- реализовать register + users + roles
 
 ### Этап 2
 

@@ -1,6 +1,6 @@
 package com.vitali.framework.resolvers;
 
-import com.vitali.framework.api.login.response.AuthResponse;
+import com.vitali.framework.api.login.response.LoginResponse;
 import com.vitali.framework.api.login.LoginApi;
 import com.vitali.framework.api.users.UsersActions;
 import com.vitali.framework.api.users.UsersApi;
@@ -45,7 +45,7 @@ public  class UserCreationHelper {
 
     @Step("Login user and get token")
     private static String loginUser(RestAssuredConnector connector, CreateUserResponse userInfo, CreateUserRequest userRequest) {
-        AuthResponse response = connector.send(LoginApi.login(userInfo.getEmail(), userRequest.getPassword())
+        LoginResponse response = connector.send(LoginApi.login(userInfo.getEmail(), userRequest.getPassword())
                         .build())
                 .ifOk()
                 .getDataResponse(new TypeRef<>() {

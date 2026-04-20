@@ -1,10 +1,9 @@
 package com.skillswap.market.security.service;
 
-import com.skillswap.market.common.exception.ApiException;
 import com.skillswap.market.security.model.AppUserPrincipal;
 import com.skillswap.market.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,7 +20,7 @@ public class AppUserDetailsService implements UserDetailsService {
         return userRepository.findByEmailIgnoreCase(username)
                 .map(user -> {
                     if (!user.isActive()) {
-                        throw new ApiException(HttpStatus.FORBIDDEN, "User is not active");
+                        throw new DisabledException("User is not active");
                     }
                     return AppUserPrincipal.from(user);
                 })

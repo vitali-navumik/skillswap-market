@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -55,6 +57,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ApiError> handleBadCredentials(HttpServletRequest request) {
         return buildError(HttpStatus.UNAUTHORIZED, "Invalid email or password", request.getRequestURI(), List.of());
+    }
+
+    @ExceptionHandler(DisabledException.class)
+    public ResponseEntity<ApiError> handleDisabled(HttpServletRequest request) {
+        return buildError(HttpStatus.FORBIDDEN, "User is not active", request.getRequestURI(), List.of());
+    }
+
+    @ExceptionHandler(InternalAuthenticationServiceException.class)
+    public ResponseEntity<ApiError> handleInternalAuthenticationServiceException(
+            InternalAuthenticationServiceException ex,
+            HttpServletRequest request
+    ) {
+        if (ex.getCause() instanceof DisabledException) {
+            return buildError(HttpStatus.FORBIDDEN, "User is not active", request.getRequestURI(), List.of());
+        }
+        return buildError(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected server error", request.getRequestURI(), List.of());
     }
 
     @ExceptionHandler(AccessDeniedException.class)

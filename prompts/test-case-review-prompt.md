@@ -46,7 +46,7 @@ For the test set under review, evaluate:
 5. Coverage completeness
 - Check whether the test set covers the important business areas within the stated scope.
 - Look for missing coverage in:
-  - auth
+  - register
   - users or profile
   - catalog or offers
   - slots

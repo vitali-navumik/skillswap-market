@@ -126,7 +126,7 @@ Use the following rules.
 - Use tags to group tests by domain, scope, and purpose.
 - Tags should support practical execution slices such as:
   - smoke
-  - auth
+  - register
   - catalog
   - offer
   - slot

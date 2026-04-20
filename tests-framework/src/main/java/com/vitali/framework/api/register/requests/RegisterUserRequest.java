@@ -1,4 +1,4 @@
-package com.vitali.framework.api.auth.requests;
+package com.vitali.framework.api.register.requests;
 
 import com.vitali.framework.enums.UserRole;
 import com.vitali.framework.utils.FakerGenerator;
@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Data
 @Builder
-public class RegisterRequest {
+public class RegisterUserRequest {
     @Builder.Default
     private String email = FakerGenerator.randomEmail();
     @Builder.Default

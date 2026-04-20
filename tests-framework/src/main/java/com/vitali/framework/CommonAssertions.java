@@ -76,6 +76,20 @@ public final class CommonAssertions {
         });
     }
 
+    public static <R> void checkUnprocessableEntity(ConnectorResponse<R> response) {
+        step("Check Response error is 422 Unprocessable Entity", () -> {
+            assertThat(response.getResponseCode()).as(RESPONSE_ERROR_CODE).isEqualTo(422);
+        });
+    }
+
+    public static <R> void checkUnprocessableEntityWithErrorMessage(ConnectorResponse<R> response, Params params) {
+        checkUnprocessableEntity(response);
+        step("Check if error message is correct", () -> {
+            assertThat(response.getDataResponse()).as(RESPONSE_ERROR_MESSAGE)
+                    .contains(params.errorMessage());
+        });
+    }
+
     @Data
     @Accessors(fluent = true)
     public static class Params {

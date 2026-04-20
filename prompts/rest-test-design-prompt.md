@@ -144,7 +144,7 @@ For each endpoint or feature, explicitly consider:
 14. Endpoint grouping strategy
 - Group scenarios by business area rather than by raw CRUD shape when that produces more useful coverage.
 - Typical REST design groups may include:
-  - auth
+  - register
   - users or profile
   - catalog or offers
   - slots

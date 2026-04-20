@@ -141,17 +141,17 @@ function MyOffersRoute({
 }
 
 export default function App() {
-  const [auth, setAuth] = useState(loadAuth);
+  const [register, setAuth] = useState(loadAuth);
 
   useEffect(() => {
-    if (auth.token && auth.user) {
-      localStorage.setItem("skillswap.token", auth.token);
-      localStorage.setItem("skillswap.user", JSON.stringify(auth.user));
+    if (register.token && register.user) {
+      localStorage.setItem("skillswap.token", register.token);
+      localStorage.setItem("skillswap.user", JSON.stringify(register.user));
     } else {
       localStorage.removeItem("skillswap.token");
       localStorage.removeItem("skillswap.user");
     }
-  }, [auth]);
+  }, [register]);
 
   const onAuthenticated = (response: AuthResponse) => {
     setAuth({
@@ -170,63 +170,63 @@ export default function App() {
   const onLogout = () => setAuth({ token: null, user: null });
 
   const titleTone = useMemo(() => {
-    if (auth.user?.roles.includes("ADMIN")) {
+    if (register.user?.roles.includes("ADMIN")) {
       return "admin";
     }
-    if (auth.user?.roles.includes("MENTOR")) {
+    if (register.user?.roles.includes("MENTOR")) {
       return "mentor";
     }
     return "default";
-  }, [auth.user]);
+  }, [register.user]);
 
   return (
     <div className={`theme-${titleTone}`}>
-      <Shell user={auth.user} onLogout={onLogout}>
+      <Shell user={register.user} onLogout={onLogout}>
         <Routes>
-          <Route path="/offers" element={<OffersListRoute token={auth.token} user={auth.user} />} />
+          <Route path="/offers" element={<OffersListRoute token={register.token} user={register.user} />} />
           <Route
             path="/my-offers"
             element={
-              <ProtectedRoute user={auth.user}>
-                <MyOffersRoute token={auth.token} user={auth.user} />
+              <ProtectedRoute user={register.user}>
+                <MyOffersRoute token={register.token} user={register.user} />
               </ProtectedRoute>
             }
           />
           <Route path="/login" element={<LoginPage onAuthenticated={onAuthenticated} />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/offers/:offerPublicId" element={<OfferDetailsPage token={auth.token} user={auth.user} />} />
+          <Route path="/offers/:offerPublicId" element={<OfferDetailsPage token={register.token} user={register.user} />} />
           <Route
             path="/wallets"
             element={
-              <ProtectedRoute user={auth.user}>
-                <WalletPage token={auth.token} user={auth.user} />
+              <ProtectedRoute user={register.user}>
+                <WalletPage token={register.token} user={register.user} />
               </ProtectedRoute>
             }
           />
           <Route
             path="/wallets/:walletPublicId"
             element={
-              <ProtectedRoute user={auth.user}>
-                <WalletPage token={auth.token} user={auth.user} />
+              <ProtectedRoute user={register.user}>
+                <WalletPage token={register.token} user={register.user} />
               </ProtectedRoute>
             }
           />
           <Route
             path="/bookings"
             element={
-              <ProtectedRoute user={auth.user}>
-                <BookingsPage token={auth.token} user={auth.user} />
+              <ProtectedRoute user={register.user}>
+                <BookingsPage token={register.token} user={register.user} />
               </ProtectedRoute>
             }
           />
           <Route
             path="/bookings/:bookingPublicId"
             element={
-              <ProtectedRoute user={auth.user}>
-                {auth.user?.roles.includes("ADMIN") ? (
-                  <AdminBookingDetailsPage token={auth.token} user={auth.user} />
+              <ProtectedRoute user={register.user}>
+                {register.user?.roles.includes("ADMIN") ? (
+                  <AdminBookingDetailsPage token={register.token} user={register.user} />
                 ) : (
-                  <BookingDetailsPage token={auth.token} user={auth.user} />
+                  <BookingDetailsPage token={register.token} user={register.user} />
                 )}
               </ProtectedRoute>
             }
@@ -234,43 +234,43 @@ export default function App() {
           <Route
             path="/bookings/:bookingPublicId/review/new"
             element={
-              <ProtectedRoute user={auth.user}>
-                <CreateReviewPage token={auth.token} user={auth.user} />
+              <ProtectedRoute user={register.user}>
+                <CreateReviewPage token={register.token} user={register.user} />
               </ProtectedRoute>
             }
           />
           <Route
             path="/reviews"
             element={
-              <ProtectedRoute user={auth.user}>
-                <AdminReviewsPage token={auth.token} user={auth.user} />
+              <ProtectedRoute user={register.user}>
+                <AdminReviewsPage token={register.token} user={register.user} />
               </ProtectedRoute>
             }
           />
           <Route
             path="/reviews/:reviewPublicId"
             element={
-              <ProtectedRoute user={auth.user}>
-                <ReviewDetailsRoute token={auth.token} user={auth.user} />
+              <ProtectedRoute user={register.user}>
+                <ReviewDetailsRoute token={register.token} user={register.user} />
               </ProtectedRoute>
             }
           />
           <Route
             path="/reviews/:reviewPublicId/edit"
             element={
-              <ProtectedRoute user={auth.user}>
-                <ReviewEditRoute token={auth.token} user={auth.user} />
+              <ProtectedRoute user={register.user}>
+                <ReviewEditRoute token={register.token} user={register.user} />
               </ProtectedRoute>
             }
           />
           <Route
             path="/offers/new"
             element={
-              <ProtectedRoute user={auth.user}>
-                {auth.user?.roles.includes("ADMIN") ? (
+              <ProtectedRoute user={register.user}>
+                {register.user?.roles.includes("ADMIN") ? (
                   <Navigate to="/offers" replace />
                 ) : (
-                  <CreateOfferPage token={auth.token} user={auth.user} />
+                  <CreateOfferPage token={register.token} user={register.user} />
                 )}
               </ProtectedRoute>
             }
@@ -278,8 +278,8 @@ export default function App() {
           <Route
             path="/offers/:offerPublicId/edit"
             element={
-              <ProtectedRoute user={auth.user}>
-                <EditOfferPage token={auth.token} user={auth.user} />
+              <ProtectedRoute user={register.user}>
+                <EditOfferPage token={register.token} user={register.user} />
               </ProtectedRoute>
             }
           />
@@ -287,32 +287,32 @@ export default function App() {
           <Route
             path="/users"
             element={
-              <ProtectedRoute user={auth.user}>
-                <AdminUsersPage token={auth.token} user={auth.user} />
+              <ProtectedRoute user={register.user}>
+                <AdminUsersPage token={register.token} user={register.user} />
               </ProtectedRoute>
             }
           />
           <Route
             path="/users/new"
             element={
-              <ProtectedRoute user={auth.user}>
-                <CreateAdminUserPage token={auth.token} user={auth.user} />
+              <ProtectedRoute user={register.user}>
+                <CreateAdminUserPage token={register.token} user={register.user} />
               </ProtectedRoute>
             }
           />
           <Route
             path="/users/:userPublicId"
             element={
-              <ProtectedRoute user={auth.user}>
-                <UserDetailsRoute token={auth.token} user={auth.user} />
+              <ProtectedRoute user={register.user}>
+                <UserDetailsRoute token={register.token} user={register.user} />
               </ProtectedRoute>
             }
           />
           <Route
             path="/users/:userPublicId/edit"
             element={
-              <ProtectedRoute user={auth.user}>
-                <UserEditRoute token={auth.token} user={auth.user} onUserUpdated={onUserUpdated} />
+              <ProtectedRoute user={register.user}>
+                <UserEditRoute token={register.token} user={register.user} onUserUpdated={onUserUpdated} />
               </ProtectedRoute>
             }
           />

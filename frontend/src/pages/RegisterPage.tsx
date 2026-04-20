@@ -59,8 +59,8 @@ export function RegisterPage() {
   };
 
   return (
-    <section className="auth-layout detail-shell">
-      <div className="auth-panel wide">
+    <section className="register-layout detail-shell">
+      <div className="register-panel wide">
         <span className="eyebrow">Get started</span>
         <h1>Create Account</h1>
 

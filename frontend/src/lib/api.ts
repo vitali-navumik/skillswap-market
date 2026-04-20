@@ -70,7 +70,7 @@ export const api = {
     roles: Role[];
   }) {
     return request<{ userId: number; publicId: string; email: string; roles: Role[]; status: string }>(
-      "/api/auth/register",
+      "/api/register/register",
       {
         method: "POST",
         headers: jsonHeaders,
@@ -80,7 +80,7 @@ export const api = {
   },
 
   login(payload: { email: string; password: string }) {
-    return request<AuthResponse>("/api/auth/login", {
+    return request<AuthResponse>("/api/register/login", {
       method: "POST",
       headers: jsonHeaders,
       body: JSON.stringify(payload)

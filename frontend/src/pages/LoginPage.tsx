@@ -72,13 +72,13 @@ export function LoginPage({ onAuthenticated }: LoginPageProps) {
   };
 
   return (
-    <section className="auth-layout detail-shell">
-      <div className="auth-panel">
+    <section className="register-layout detail-shell">
+      <div className="register-panel">
         <span className="eyebrow">Welcome back</span>
         <h1>Log In</h1>
         <p>Use a seeded or newly registered account to continue.</p>
 
-        <form className="stack gap-md auth-form" onSubmit={onSubmit}>
+        <form className="stack gap-md register-form" onSubmit={onSubmit}>
           <label>
             Email
             <input
