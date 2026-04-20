@@ -35,7 +35,8 @@ Use the following rules.
   - responses
   - assertions
   - invocations
-  - utils
+  - helpers
+  - providers
 - Cross-cutting layers should be kept separately, for example:
   - config
   - connectors
@@ -81,6 +82,8 @@ Use the following rules.
 - Use `@Builder.Default` for sensible defaults that reduce noise in tests.
 - Request builders should let a test override only the fields that matter for the current scenario.
 - Use inheritance and interfaces only where they simplify contracts or remove meaningful duplication.
+- Prefer `MapStruct` for reusable request/response mapping when models share a stable structure.
+- Keep mapper interfaces close to the relevant business domain and use builders with `toBuilder()` when tests need to clone an existing object and override a small subset of fields.
 
 9. Generated data
 - Use a shared `FakerGenerator` or equivalent generator for fresh test data.
@@ -102,6 +105,11 @@ Use the following rules.
 - Prefer assertion parameter objects such as `AssertionParams` so tests declare only relevant expectations.
 - Use soft assertions for multi-field validation where that improves diagnostics.
 - Keep assertion details out of test methods whenever reusable assertion classes can express them more clearly.
+- Follow the current project style used in `UserAssertions` and `AuthAssertions`:
+  - reusable entity checks live in dedicated assertion classes
+  - assertion parameter objects declare only relevant expected fields
+  - assertion descriptions should be meaningful and business-readable, for example `... is correct`
+  - tests should prefer assertion classes over long inline assertion blocks
 
 12. Invocation and template-based scenarios
 - Use invocation/template-based design for matrix-like or repetitive scenarios.
@@ -174,6 +182,10 @@ Use the following rules.
 - Step descriptions should explain what is happening in clear business-oriented language.
 - Include key runtime values in step descriptions when they improve diagnostics.
 - Reports should show an understandable scenario flow, not technical noise.
+- In the current project style:
+  - keep `@Step` on action-layer methods and reusable assertion methods when they form a meaningful reporting block
+  - do not duplicate `@Step` on wrappers that only delegate to another assertion method already creating a clear reporting step
+  - in `CommonAssertions`, keep explicit `step(\"...\", () -> ...)` blocks instead of mixing that style with `@Step` on the same methods
 
 19. Display names and naming conventions
 - Use `@DisplayName` as the primary human-readable test description layer.

@@ -44,7 +44,7 @@ public class AuthService {
         validatePassword(request.password());
 
         if (userRepository.existsByEmailIgnoreCase(normalizedEmail)) {
-            throw new ApiException(HttpStatus.CONFLICT, "Email is already registered");
+            throw new ApiException(HttpStatus.CONFLICT, "Email is already in use");
         }
 
         User user = User.builder()

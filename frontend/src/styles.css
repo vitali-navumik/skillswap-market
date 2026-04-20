@@ -865,6 +865,10 @@ label {
   width: 100%;
 }
 
+.admin-users-table-wrap {
+  max-height: 34.5rem;
+}
+
 .bookings-table {
   width: 100%;
   min-width: 760px;
@@ -1301,32 +1305,28 @@ label {
   padding-top: 1rem;
 }
 
-.data-table {
-  display: grid;
-  gap: 0.65rem;
+.admin-users-grid-table {
+  min-width: 720px;
 }
 
-.data-table-head,
-.data-table-row {
-  display: grid;
-  gap: 0.85rem;
-  align-items: center;
+.admin-users-grid-table th:first-child,
+.admin-users-grid-table td:first-child {
+  width: 30%;
 }
 
-.data-table-head {
-  padding-bottom: 0.55rem;
-  border-bottom: 1px solid rgba(24, 42, 33, 0.08);
-  color: var(--muted);
-  font-size: 0.88rem;
-  font-weight: 600;
+.admin-users-grid-table th:nth-child(2),
+.admin-users-grid-table td:nth-child(2) {
+  width: 34%;
 }
 
-.data-table-row {
-  padding: 0.25rem 0;
+.admin-users-grid-table th:nth-child(3),
+.admin-users-grid-table td:nth-child(3) {
+  width: 24%;
 }
 
-.admin-users-table {
-  grid-template-columns: minmax(180px, 1.4fr) minmax(220px, 1.6fr) minmax(180px, 1.2fr) minmax(100px, auto);
+.admin-users-grid-table th:last-child,
+.admin-users-grid-table td:last-child {
+  width: 12%;
 }
 
 .tab-button {
@@ -1752,9 +1752,7 @@ label {
   }
 
   .profile-table-head,
-  .profile-table-row,
-  .data-table-head,
-  .data-table-row {
+  .profile-table-row {
     grid-template-columns: 1fr;
   }
 }

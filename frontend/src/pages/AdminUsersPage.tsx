@@ -112,29 +112,43 @@ export function AdminUsersPage({ token, user }: AdminUsersPageProps) {
               <div className="inline-toolbar">
                 <span className="list-total">{visibleUsers.length} total</span>
               </div>
-              <div className="data-table" data-testid="admin-users-page-list">
-                <div className="data-table-head admin-users-table">
-                  <span>Full name</span>
-                  <span>Email</span>
-                  <span>Roles</span>
-                  <span>Status</span>
-                </div>
-                {visibleUsers.map((entry) => (
-                  <div className="data-table-row admin-users-table" key={entry.id} data-testid={`admin-user-list-item-${entry.id}`}>
-                    <Link className="text-link" to={`/users/${entry.publicId}`}>
-                      <strong>{getFullName(entry.firstName, entry.lastName, entry.displayName)}</strong>
-                    </Link>
-                    <span className="muted">{entry.email}</span>
-                    <div className="pill-list">
-                      {entry.roles.map((role) => (
-                        <span className="badge subtle" key={role}>
-                          {role}
-                        </span>
-                      ))}
-                    </div>
-                    <span className={`badge subtle status-chip status-${entry.status.toLowerCase()}`}>{entry.status}</span>
-                  </div>
-                ))}
+              <div className="bookings-table-wrap admin-users-table-wrap" data-testid="admin-users-page-list">
+                <table className="bookings-table admin-users-grid-table" data-testid="admin-users-table">
+                  <thead>
+                    <tr>
+                      <th>Full name</th>
+                      <th>Email</th>
+                      <th>Roles</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {visibleUsers.map((entry) => (
+                      <tr key={entry.id} data-testid={`admin-user-list-item-${entry.id}`}>
+                        <td>
+                          <Link className="text-link" to={`/users/${entry.publicId}`}>
+                            <strong>{getFullName(entry.firstName, entry.lastName, entry.displayName)}</strong>
+                          </Link>
+                        </td>
+                        <td>
+                          <span className="muted">{entry.email}</span>
+                        </td>
+                        <td>
+                          <div className="pill-list">
+                            {entry.roles.map((role) => (
+                              <span className="badge subtle" key={role}>
+                                {role}
+                              </span>
+                            ))}
+                          </div>
+                        </td>
+                        <td>
+                          <span className={`badge subtle status-chip status-${entry.status.toLowerCase()}`}>{entry.status}</span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </>
           )}

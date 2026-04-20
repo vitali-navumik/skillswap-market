@@ -100,6 +100,10 @@ Use the following rules.
 - `CommonAssertions` should handle repeated low-level checks consistently.
 - Domain assertion classes should verify business entities and business outcomes rather than raw technical fields only.
 - Tests should read like scenario plus outcome, while reusable assertion classes carry repeated verification details.
+- Follow the current project style used in `UserAssertions` and `AuthAssertions`:
+  - reusable entity checks should be moved out of tests into dedicated assertion classes
+  - direct assertions in tests should use meaningful `as(...)` descriptions that express the business rule being checked
+  - avoid generic descriptions such as `Response error message` when a more specific business-oriented wording is available
 
 11. Soft assertions for multi-field verification
 - For multi-field entity verification, prefer soft assertions.
