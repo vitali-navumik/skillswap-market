@@ -43,7 +43,8 @@ public final class UsersActions {
     public CreateUserResponse createUserResponse(CreateUserRequest request) {
         return createUser(request)
                 .ifOk()
-                .as(CreateUserResponse.class);
+                .getDataResponse(new TypeRef<>() {
+                });
     }
 
     @Step("Get user")
@@ -55,7 +56,8 @@ public final class UsersActions {
     public GetUserResponse getUserResponse(UUID publicId) {
         return getUser(publicId)
                 .ifOk()
-                .as(GetUserResponse.class);
+                .getDataResponse(new TypeRef<>() {
+                });
     }
 
     @Step("Update user")
@@ -67,6 +69,7 @@ public final class UsersActions {
     public UpdateUserResponse updateUserResponse(UpdateUserRequest request) {
         return updateUser(request)
                 .ifOk()
-                .as(UpdateUserResponse.class);
+                .getDataResponse(new TypeRef<>() {
+                });
     }
 }

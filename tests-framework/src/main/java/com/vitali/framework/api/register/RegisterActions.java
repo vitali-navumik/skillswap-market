@@ -5,6 +5,7 @@ import com.vitali.framework.api.register.responses.RegisterUserResponse;
 import com.vitali.framework.connectors.ConnectorResponse;
 import com.vitali.framework.connectors.Sender;
 import io.qameta.allure.Step;
+import io.restassured.common.mapper.TypeRef;
 
 public final class RegisterActions {
 
@@ -23,6 +24,7 @@ public final class RegisterActions {
     public RegisterUserResponse registerResponse(RegisterUserRequest request) {
         return register(request)
                 .ifOk()
-                .as(RegisterUserResponse.class);
+                .getDataResponse(new TypeRef<>() {
+                });
     }
 }

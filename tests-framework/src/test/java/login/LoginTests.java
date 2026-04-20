@@ -19,6 +19,7 @@ import com.vitali.framework.resolvers.ActionsContainer;
 import com.vitali.framework.resolvers.GlobalActionsParameterResolver;
 import com.vitali.framework.resolvers.GlobalActionsPreset;
 import com.vitali.framework.tags.LoginTag;
+import com.vitali.framework.utils.FakerGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,7 +51,7 @@ public class LoginTests {
 
     @Test
     void guestCanLoginWithNormalizedEmail() {
-        String normalizedEmail = "user." + System.nanoTime() + "@example.com";
+        String normalizedEmail = FakerGenerator.randomEmail();
         RegisterUserRequest userRequest = RegisterUserRequest.builder()
                 .email(normalizedEmail)
                 .roles(Set.of(UserRole.STUDENT))
@@ -94,7 +95,7 @@ public class LoginTests {
 
     @Test
     void guestCannotLoginWithUnknownEmail() {
-        ConnectorResponse<LoginResponse> response = loginActions.login("unknown+" + System.nanoTime() + "@example.com", "StrongPass1");
+        ConnectorResponse<LoginResponse> response = loginActions.login(FakerGenerator.randomEmail(), "StrongPass1");
 
         LoginAssertions.checkUnknownEmailError(response);
     }

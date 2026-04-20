@@ -80,6 +80,7 @@ Use the following rules.
 - Keep request models concise and test-friendly.
 - For Java request and test models, Lombok `@Data` and `@Builder` are preferred where they improve readability and reduce boilerplate.
 - Use `@Builder.Default` for sensible defaults that reduce noise in tests.
+- For request models, follow the current project style: prefer `@Data` + `@Builder` + `@Builder.Default` and do not add Lombok `@NoArgsConstructor` or `@AllArgsConstructor` unless the project explicitly adopts that pattern later.
 - Request builders should let a test override only the fields that matter for the current scenario.
 - Use inheritance and interfaces only where they simplify contracts or remove meaningful duplication.
 - Prefer `MapStruct` for reusable request/response mapping when models share a stable structure.
@@ -96,6 +97,7 @@ Use the following rules.
 - Use a connector/sender abstraction between tests and the HTTP client.
 - Common request configuration, authorization setup, base URLs, and response handling should be centralized.
 - Domain action classes should operate through connector abstractions rather than making low-level calls from test methods.
+- In API action classes, use `getDataResponse(new TypeRef<>() {})` consistently for response deserialization, including single-object DTO responses, to keep one uniform project style across actions.
 
 11. Domain assertions and common assertions
 - Use a two-layer assertion model:

@@ -13,6 +13,7 @@ import com.vitali.framework.connectors.Sender;
 import com.vitali.framework.enums.UserRole;
 import com.vitali.framework.enums.UserStatus;
 import com.vitali.framework.tags.RegisterTag;
+import com.vitali.framework.utils.FakerGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -88,7 +89,7 @@ class RegisterTests {
 
     @Test
     void guestCanRegisterWithNormalizedEmail() {
-        String normalizedEmail = "user." + System.nanoTime() + "@example.com";
+        String normalizedEmail = FakerGenerator.randomEmail();
 
         RegisterUserRequest request = RegisterUserRequest.builder()
                 .email(normalizedEmail.toUpperCase())
