@@ -37,6 +37,15 @@ public class LoginAssertions {
                     .isNotNull();
         }
 
+        if (params.email() != null) {
+            softly.assertThat(response.getUser())
+                    .as("Logged in user is present")
+                    .isNotNull();
+            softly.assertThat(response.getUser().getEmail())
+                    .as("Logged in user email is correct")
+                    .isEqualTo(params.email());
+        }
+
         softly.assertAll();
     }
 
@@ -70,6 +79,32 @@ public class LoginAssertions {
         softly.assertAll();
     }
 
+    @Step("Check blank credentials login validation error")
+    public static void checkBlankCredentialsValidationError(ConnectorResponse<LoginResponse> response) {
+        CommonAssertions.checkBadRequest(response);
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(response.getDataResponse())
+                .as("Blank credentials return validation error")
+                .contains("\"field\":\"email\"");
+        softly.assertThat(response.getDataResponse())
+                .as("Blank credentials return validation error for password")
+                .contains("\"field\":\"password\"");
+        softly.assertAll();
+    }
+
+    @Step("Check invalid email format login validation error")
+    public static void checkInvalidEmailFormatValidationError(ConnectorResponse<LoginResponse> response) {
+        CommonAssertions.checkBadRequest(response);
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(response.getDataResponse())
+                .as("Invalid email format returns validation error")
+                .contains("\"field\":\"email\"");
+        softly.assertThat(response.getDataResponse())
+                .as("Invalid email format contains email validation message")
+                .contains("must be a well-formed email address");
+        softly.assertAll();
+    }
+
     @Data
     @Accessors(fluent = true)
     public static class AssertionParams {
@@ -77,5 +112,6 @@ public class LoginAssertions {
         private String tokenType;
         private Boolean expiresInExpected;
         private Boolean userExpected;
+        private String email;
     }
 }
