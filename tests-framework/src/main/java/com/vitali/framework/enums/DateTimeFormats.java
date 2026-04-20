@@ -1,4 +1,4 @@
-package com.vitali.framework.utils;
+package com.vitali.framework.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,7 @@
 package offer;
 
 import com.vitali.framework.CommonAssertions;
+import com.vitali.framework.GuestActions;
 import com.vitali.framework.api.offer.assertions.OfferAssertions;
 import com.vitali.framework.api.offer.OfferActions;
 import com.vitali.framework.api.offer.requests.CreateOfferRequest;
@@ -30,7 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ExtendWith({GlobalActionsParameterResolver.class})
 class OfferCreationTests {
 
-    private final OfferActions guestOfferActions = new OfferActions(new Sender(null, new RestAssuredConnector()));
+    private final GuestActions guestActions = GuestActions.create();
 
     @Test
     @DisplayName("Mentor can create offer")
@@ -86,7 +87,7 @@ class OfferCreationTests {
     void guestCannotCreateOfferWithoutToken() {
         CreateOfferRequest offerRequest = CreateOfferRequest.builder().build();
 
-        ConnectorResponse<OfferResponse> response = guestOfferActions.createOffer(offerRequest);
+        ConnectorResponse<OfferResponse> response = guestActions.offerActions().createOffer(offerRequest);
 
         CommonAssertions.checkForbidden(response);
     }

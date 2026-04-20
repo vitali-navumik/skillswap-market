@@ -1,15 +1,13 @@
 package register;
 
 import com.vitali.framework.CommonAssertions;
-import com.vitali.framework.api.register.RegisterActions;
+import com.vitali.framework.GuestActions;
 import com.vitali.framework.api.register.assertions.RegisterAssertions;
 import com.vitali.framework.api.register.invocations.RegisterUserRequiredFieldsInvocation;
 import com.vitali.framework.api.register.invocations.RegisterUserRequiredFieldsInvocation.RegisterRequiredFieldTestCase;
 import com.vitali.framework.api.register.requests.RegisterUserRequest;
 import com.vitali.framework.api.register.responses.RegisterUserResponse;
 import com.vitali.framework.connectors.ConnectorResponse;
-import com.vitali.framework.connectors.RestAssuredConnector;
-import com.vitali.framework.connectors.Sender;
 import com.vitali.framework.enums.UserRole;
 import com.vitali.framework.enums.UserStatus;
 import com.vitali.framework.tags.RegisterTag;
@@ -28,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RegisterTag
 class RegisterTests {
 
-    private final RegisterActions registerActions = new RegisterActions(new Sender(null, new RestAssuredConnector()));
+    private final GuestActions guestActions = GuestActions.create();
 
     @ParameterizedTest
     @EnumSource(value = UserRole.class, names = {"STUDENT", "MENTOR"})
@@ -38,7 +36,7 @@ class RegisterTests {
                 .roles(Set.of(role))
                 .build();
 
-        RegisterUserResponse registerUserResponse = registerActions.registerResponse(request);
+        RegisterUserResponse registerUserResponse = guestActions.registerActions().registerResponse(request);
         RegisterAssertions.checkRegistrationDataIsCorrect(registerUserResponse, new RegisterAssertions.AssertionParams()
                 .idExpected(true)
                 .publicIdExpected(true)
@@ -54,7 +52,7 @@ class RegisterTests {
                 .roles(Set.of(UserRole.ADMIN))
                 .build();
 
-        ConnectorResponse<RegisterUserResponse> response = registerActions.register(request);
+        ConnectorResponse<RegisterUserResponse> response = guestActions.registerActions().register(request);
 
         CommonAssertions.checkForbidden(response);
         assertThat(response.getDataResponse())
@@ -69,9 +67,9 @@ class RegisterTests {
                 .roles(Set.of(UserRole.STUDENT))
                 .build();
 
-        CommonAssertions.checkResponseIsOk(registerActions.register(request));
+        CommonAssertions.checkResponseIsOk(guestActions.registerActions().register(request));
 
-        ConnectorResponse<RegisterUserResponse> duplicateResponse = registerActions.register(request);
+        ConnectorResponse<RegisterUserResponse> duplicateResponse = guestActions.registerActions().register(request);
 
         CommonAssertions.checkConflict(duplicateResponse);
         assertThat(duplicateResponse.getDataResponse())
@@ -86,7 +84,7 @@ class RegisterTests {
                 .roles(Set.of(UserRole.STUDENT, UserRole.MENTOR))
                 .build();
 
-        ConnectorResponse<RegisterUserResponse> response = registerActions.register(request);
+        ConnectorResponse<RegisterUserResponse> response = guestActions.registerActions().register(request);
 
         CommonAssertions.checkUnprocessableEntityWithErrorMessage(response, new CommonAssertions.Params()
                 .errorMessage("Select exactly one role"));
@@ -102,7 +100,7 @@ class RegisterTests {
                 .roles(Set.of(UserRole.STUDENT))
                 .build();
 
-        RegisterUserResponse registerUserResponse = registerActions.registerResponse(request);
+        RegisterUserResponse registerUserResponse = guestActions.registerActions().registerResponse(request);
 
         RegisterAssertions.checkRegistrationDataIsCorrect(registerUserResponse, new RegisterAssertions.AssertionParams()
                 .idExpected(true)
@@ -120,7 +118,7 @@ class RegisterTests {
                 .password("weakPass")
                 .build();
 
-        ConnectorResponse<RegisterUserResponse> response = registerActions.register(request);
+        ConnectorResponse<RegisterUserResponse> response = guestActions.registerActions().register(request);
 
         CommonAssertions.checkUnprocessableEntityWithErrorMessage(response, new CommonAssertions.Params()
                 .errorMessage("Password must contain at least one uppercase letter, one lowercase letter, and one digit"));
@@ -132,7 +130,7 @@ class RegisterTests {
     void guestCannotRegisterWithoutRequiredFields(RegisterRequiredFieldTestCase testCase) {
         RegisterUserRequest request = testCase.buildRequest();
 
-        ConnectorResponse<RegisterUserResponse> response = registerActions.register(request);
+        ConnectorResponse<RegisterUserResponse> response = guestActions.registerActions().register(request);
         testCase.assertResult(response);
     }
 }
