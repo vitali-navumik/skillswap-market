@@ -126,6 +126,27 @@ Report output:
 - raw results: [build/allure-results](/C:/Users/Vitali/IdeaProjects/skillswap-market/tests-framework/build/allure-results)
 - generated HTML report: [build/reports/allure-report](/C:/Users/Vitali/IdeaProjects/skillswap-market/tests-framework/build/reports/allure-report)
 
+## CI Test Reporting
+
+GitHub Actions workflow:
+- [.github/workflows/tests-allure.yml](/C:/Users/Vitali/IdeaProjects/skillswap-market/.github/workflows/tests-allure.yml)
+
+What happens on each push to `main`:
+- PostgreSQL starts in GitHub Actions
+- backend is built and started
+- all tests from [tests-framework](/C:/Users/Vitali/IdeaProjects/skillswap-market/tests-framework) run
+- Allure report is generated
+- raw results, HTML report, and backend logs are uploaded as workflow artifacts
+- the HTML Allure report is published to GitHub Pages
+
+Where to look:
+- `Actions` tab for execution logs and artifacts
+- `Pages` deployment link for the published Allure HTML report
+
+Required GitHub configuration:
+- `Settings -> Pages -> Source: GitHub Actions`
+- repository secret `ADMIN_PASSWORD` for the seeded demo admin used by the test framework
+
 ## Current Direction
 
 The repository is being shaped around three parallel goals:

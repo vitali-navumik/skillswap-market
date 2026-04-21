@@ -22,6 +22,17 @@ What this setup does:
 - generates the static HTML report into `build/reports/allure-report`
 - supports `@Step` annotations and RestAssured request/response attachments during test execution
 
+## CI and GitHub Pages
+
+CI workflow:
+- [.github/workflows/tests-allure.yml](/C:/Users/Vitali/IdeaProjects/skillswap-market/.github/workflows/tests-allure.yml)
+
+The workflow runs on each push to `main`, starts PostgreSQL and backend, runs the framework tests, uploads artifacts, and publishes the generated Allure HTML report to GitHub Pages.
+
+Required GitHub setup:
+- `Settings -> Pages -> Source: GitHub Actions`
+- repository secret `ADMIN_PASSWORD`
+
 ## Core style
 
 - Keep tests scenario-focused and short.
