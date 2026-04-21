@@ -147,6 +147,13 @@ Required GitHub configuration:
 - `Settings -> Pages -> Source: GitHub Actions`
 - repository secret `ADMIN_PASSWORD` for the seeded demo admin used by the test framework
 
+Manual run:
+- open `Actions`
+- select `Tests And Allure Report`
+- click `Run workflow`
+- choose branch `main`
+- start the workflow manually when you want a rerun without a relevant code change
+
 ## Current Direction
 
 The repository is being shaped around three parallel goals:
