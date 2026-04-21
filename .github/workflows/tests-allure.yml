@@ -4,6 +4,15 @@ on:
   push:
     branches:
       - main
+    paths:
+      - '.github/workflows/tests-allure.yml'
+      - 'tests-framework/**'
+      - 'backend/**'
+      - 'infra/**'
+      - 'gradle/**'
+      - 'gradlew'
+      - 'gradlew.bat'
+      - 'settings.gradle'
   workflow_dispatch:
 
 env:
