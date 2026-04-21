@@ -113,7 +113,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
-          path: tests-framework/build/reports/allure-report
+          path: tests-framework/build/reports/allure-report/allureReport
           if-no-files-found: warn
           retention-days: 30
 
@@ -132,7 +132,7 @@ jobs:
         if: always()
         uses: actions/upload-pages-artifact@v3
         with:
-          path: tests-framework/build/reports/allure-report
+          path: tests-framework/build/reports/allure-report/allureReport
 
       - name: Deploy to GitHub Pages
         if: always()
