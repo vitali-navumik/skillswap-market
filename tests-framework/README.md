@@ -6,6 +6,22 @@ This folder contains the Java API test framework for SkillSwap Market based on:
 - `RestAssured`
 - `Allure`
 
+## Running tests and Allure report
+
+From [tests-framework](/C:/Users/Vitali/IdeaProjects/skillswap-market/tests-framework):
+
+```powershell
+.\gradlew.bat test
+.\gradlew.bat allureReport
+.\gradlew.bat allureServe
+```
+
+What this setup does:
+
+- writes raw Allure results into `build/allure-results`
+- generates the static HTML report into `build/reports/allure-report`
+- supports `@Step` annotations and RestAssured request/response attachments during test execution
+
 ## Core style
 
 - Keep tests scenario-focused and short.

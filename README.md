@@ -113,6 +113,19 @@ Use:
 
 See details in the [Runbook](/C:/Users/Vitali/IdeaProjects/skillswap-market/docs/operations/RUNBOOK.md).
 
+## API Test Reporting
+
+From [tests-framework](/C:/Users/Vitali/IdeaProjects/skillswap-market/tests-framework):
+
+```powershell
+.\gradlew.bat test
+.\gradlew.bat allureReport
+```
+
+Report output:
+- raw results: [build/allure-results](/C:/Users/Vitali/IdeaProjects/skillswap-market/tests-framework/build/allure-results)
+- generated HTML report: [build/reports/allure-report](/C:/Users/Vitali/IdeaProjects/skillswap-market/tests-framework/build/reports/allure-report)
+
 ## Current Direction
 
 The repository is being shaped around three parallel goals:

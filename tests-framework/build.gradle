@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'io.qameta.allure' version '2.12.0'
 }
 
 ext {
@@ -54,19 +55,10 @@ test {
     testLogging {
         events "passed", "skipped", "failed"
     }
-    systemProperty 'allure.results.directory', file("$buildDir/allure-results")
 }
 
-tasks.register('allureReport', Exec) {
-    group = 'verification'
-    description = 'Generate Allure report from build/allure-results'
-    dependsOn test
-    commandLine 'cmd', '/c', 'allure', 'generate', "$buildDir/allure-results", '-o', "$buildDir/reports/allure-report", '--clean'
-}
-
-tasks.register('allureServe', Exec) {
-    group = 'verification'
-    description = 'Serve Allure report from build/allure-results'
-    dependsOn test
-    commandLine 'cmd', '/c', 'allure', 'serve', "$buildDir/allure-results"
+allure {
+    version = allureVersion
+    autoconfigure = true
+    aspectjweaver = true
 }
