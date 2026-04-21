@@ -84,6 +84,10 @@ jobs:
           echo "Backend did not become healthy in time"
           exit 1
 
+      - name: Make Gradle wrapper executable
+        working-directory: tests-framework
+        run: chmod +x ./gradlew
+
       - name: Run tests
         id: tests
         working-directory: tests-framework
