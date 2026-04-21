@@ -22,6 +22,7 @@ backend/target/
 frontend/node_modules/
 frontend/dist/
 frontend/*.tsbuildinfo
+frontend/vite.config.js.timestamp-*.mjs
 
 .m2/
 .playwright-cli/
