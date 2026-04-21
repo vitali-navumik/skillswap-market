@@ -1,0 +1,140 @@
+name: Tests And Allure Report
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-and-publish:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: skillswap_market
+          POSTGRES_USER: skillswap
+          POSTGRES_PASSWORD: skillswap
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U skillswap -d skillswap_market"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DB_URL: jdbc:postgresql://localhost:5432/skillswap_market
+      DB_USERNAME: skillswap
+      DB_PASSWORD: skillswap
+      JWT_SECRET: skillswap-market-demo-secret-key-that-must-be-long-enough-2026
+      SERVER_PORT: 8080
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('backend/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build backend jar
+        working-directory: backend
+        run: mvn -B -DskipTests package
+
+      - name: Start backend
+        working-directory: backend
+        run: |
+          nohup java -jar target/skillswap-market-backend-0.0.1-SNAPSHOT.jar > backend-ci.log 2> backend-ci.err &
+
+      - name: Wait for backend health
+        run: |
+          for i in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:8080/api/health > /dev/null; then
+              echo "Backend is healthy"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Backend did not become healthy in time"
+          exit 1
+
+      - name: Run tests
+        id: tests
+        working-directory: tests-framework
+        continue-on-error: true
+        run: ./gradlew test --no-daemon
+
+      - name: Build Allure report
+        if: always()
+        working-directory: tests-framework
+        run: ./gradlew allureReport -x test --no-daemon
+
+      - name: Upload Allure results artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: tests-framework/build/allure-results
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Upload Allure HTML artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: tests-framework/build/reports/allure-report
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Upload backend logs artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-logs
+          path: |
+            backend/backend-ci.log
+            backend/backend-ci.err
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload Pages artifact
+        if: always()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: tests-framework/build/reports/allure-report
+
+      - name: Deploy to GitHub Pages
+        if: always()
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Fail workflow if tests failed
+        if: steps.tests.outcome == 'failure'
+        run: exit 1
