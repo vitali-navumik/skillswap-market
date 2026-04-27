@@ -55,6 +55,7 @@ test {
     useJUnitPlatform()
     systemProperty 'playwright.cli.install', 'false'
     environment 'PLAYWRIGHT_BROWSERS_PATH', "${rootDir}/.pw-browsers"
+    environment 'PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD', '1'
     testLogging {
         events "passed", "skipped", "failed"
     }
@@ -66,6 +67,15 @@ tasks.register('playwrightInstall', JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'com.microsoft.playwright.CLI'
     args 'install', 'chromium'
+    environment 'PLAYWRIGHT_BROWSERS_PATH', "${rootDir}/.pw-browsers"
+}
+
+tasks.register('playwrightInstallWithDeps', JavaExec) {
+    group = 'verification'
+    description = 'Install Playwright Chromium browser and Linux dependencies'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.microsoft.playwright.CLI'
+    args 'install', '--with-deps', 'chromium'
     environment 'PLAYWRIGHT_BROWSERS_PATH', "${rootDir}/.pw-browsers"
 }
 

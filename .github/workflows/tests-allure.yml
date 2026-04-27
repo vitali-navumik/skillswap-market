@@ -100,6 +100,9 @@ jobs:
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
 
+      - name: Install Playwright Chromium
+        run: ./gradlew :tests-framework:playwrightInstallWithDeps --no-daemon
+
       - name: Run tests
         id: tests
         continue-on-error: true
