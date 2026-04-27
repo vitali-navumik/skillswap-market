@@ -15,9 +15,6 @@ on:
       - 'settings.gradle'
   workflow_dispatch:
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 permissions:
   contents: read
   pages: write
@@ -73,19 +70,9 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: '22'
-          cache: npm
-          cache-dependency-path: frontend/package-lock.json
-
-      - name: Cache Maven packages
-        uses: actions/cache@v5
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-m2-${{ hashFiles('backend/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-m2-
 
       - name: Setup GitHub Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: Build backend jar
         working-directory: backend
@@ -151,8 +138,16 @@ jobs:
 
       - name: Run tests
         id: tests
-        continue-on-error: true
-        run: ./gradlew :tests-framework:test --no-daemon
+        run: |
+          set +e
+          ./gradlew :tests-framework:test --no-daemon
+          exit_code=$?
+          if [ "$exit_code" -ne 0 ]; then
+            echo "TESTS_FAILED=true" >> "$GITHUB_ENV"
+          else
+            echo "TESTS_FAILED=false" >> "$GITHUB_ENV"
+          fi
+          exit 0
 
       - name: Build Allure report
         if: always()
@@ -210,5 +205,5 @@ jobs:
         uses: actions/deploy-pages@v4
 
       - name: Fail workflow if tests failed
-        if: steps.tests.outcome == 'failure'
+        if: always() && env.TESTS_FAILED == 'true'
         run: exit 1
