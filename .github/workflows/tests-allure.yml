@@ -92,14 +92,21 @@ jobs:
 
       - name: Wait for backend health
         run: |
-          for i in {1..30}; do
+          i=1
+          while [ "$i" -le 30 ]; do
             if curl --fail --silent http://127.0.0.1:8080/api/health > /dev/null; then
               echo "Backend is healthy"
               exit 0
             fi
+            echo "Waiting for backend health check... attempt $i/30"
+            i=$((i + 1))
             sleep 5
           done
           echo "Backend did not become healthy in time"
+          echo "--- backend-ci.log ---"
+          cat backend/backend-ci.log || true
+          echo "--- backend-ci.err ---"
+          cat backend/backend-ci.err || true
           exit 1
 
       - name: Make Gradle wrapper executable
