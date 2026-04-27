@@ -87,6 +87,9 @@ jobs:
         run: |
           nohup java -jar target/skillswap-market-backend-0.0.1-SNAPSHOT.jar > backend-ci.log 2> backend-ci.err &
 
+      - name: Install curl
+        run: apt-get update && apt-get install -y curl
+
       - name: Wait for backend health
         run: |
           for i in {1..30}; do
