@@ -98,19 +98,16 @@ jobs:
           exit 1
 
       - name: Make Gradle wrapper executable
-        working-directory: tests-framework
         run: chmod +x ./gradlew
 
       - name: Run tests
         id: tests
-        working-directory: tests-framework
         continue-on-error: true
-        run: ./gradlew test --no-daemon
+        run: ./gradlew :tests-framework:test --no-daemon
 
       - name: Build Allure report
         if: always()
-        working-directory: tests-framework
-        run: ./gradlew allureReport -x test --no-daemon
+        run: ./gradlew :tests-framework:allureReport -x :tests-framework:test --no-daemon
 
       - name: Upload Allure results artifact
         if: always()
