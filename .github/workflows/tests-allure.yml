@@ -71,6 +71,17 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Prepare Maven cache
+        run: mkdir -p ~/.m2/repository
+
+      - name: Cache Maven packages
+        uses: actions/cache@v5
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('backend/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-
+
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v6
 
@@ -92,46 +103,49 @@ jobs:
         run: |
           nohup java -jar target/skillswap-market-backend-0.0.1-SNAPSHOT.jar > backend-ci.log 2> backend-ci.err &
 
-      - name: Install curl
-        run: apt-get update && apt-get install -y curl
-
-      - name: Wait for backend health
+      - name: Wait for app services
         run: |
-          i=1
-          while [ "$i" -le 30 ]; do
-            if curl --fail --silent http://127.0.0.1:8080/api/health > /dev/null; then
-              echo "Backend is healthy"
-              exit 0
-            fi
-            echo "Waiting for backend health check... attempt $i/30"
-            i=$((i + 1))
-            sleep 5
-          done
-          echo "Backend did not become healthy in time"
+          wait_for() {
+            name="$1"
+            url="$2"
+            attempts="$3"
+            delay="$4"
+
+            i=1
+            while [ "$i" -le "$attempts" ]; do
+              if node -e "fetch(process.argv[1]).then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))" "$url"; then
+                echo "$name is ready"
+                return 0
+              fi
+              echo "Waiting for $name... attempt $i/$attempts"
+              i=$((i + 1))
+              sleep "$delay"
+            done
+
+            echo "$name did not become ready in time"
+            return 1
+          }
+
+          wait_for "backend" "http://127.0.0.1:8080/api/health" 30 5 || {
+            echo "--- backend-ci.log ---"
+            cat backend/backend-ci.log || true
+            echo "--- backend-ci.err ---"
+            cat backend/backend-ci.err || true
+            exit 1
+          }
+
+          wait_for "frontend" "http://127.0.0.1:5173" 30 2 || {
+            echo "--- frontend-ci.log ---"
+            cat frontend/frontend-ci.log || true
+            echo "--- frontend-ci.err ---"
+            cat frontend/frontend-ci.err || true
+            exit 1
+          }
+
           echo "--- backend-ci.log ---"
-          cat backend/backend-ci.log || true
-          echo "--- backend-ci.err ---"
-          cat backend/backend-ci.err || true
-          exit 1
-
-      - name: Wait for frontend
-        run: |
-          i=1
-          while [ "$i" -le 30 ]; do
-            if curl --fail --silent http://127.0.0.1:5173 > /dev/null; then
-              echo "Frontend is ready"
-              exit 0
-            fi
-            echo "Waiting for frontend... attempt $i/30"
-            i=$((i + 1))
-            sleep 2
-          done
-          echo "Frontend did not become ready in time"
+          tail -n 80 backend/backend-ci.log || true
           echo "--- frontend-ci.log ---"
-          cat frontend/frontend-ci.log || true
-          echo "--- frontend-ci.err ---"
-          cat frontend/frontend-ci.err || true
-          exit 1
+          tail -n 80 frontend/frontend-ci.log || true
 
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
