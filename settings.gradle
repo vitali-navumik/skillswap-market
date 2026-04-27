@@ -1,3 +1,4 @@
 rootProject.name = 'skillswap-market'
 
+include 'backend'
 include 'tests-framework'

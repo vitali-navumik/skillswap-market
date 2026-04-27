@@ -9,6 +9,7 @@ on:
       - 'tests-framework/**'
       - 'backend/**'
       - 'infra/**'
+      - 'build.gradle'
       - 'gradle/**'
       - 'gradlew'
       - 'gradlew.bat'
@@ -71,23 +72,14 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Prepare Maven cache
-        run: mkdir -p ~/.m2/repository
-
-      - name: Cache Maven packages
-        uses: actions/cache@v5
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-m2-${{ hashFiles('backend/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-m2-
-
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v6
 
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
       - name: Build backend jar
-        working-directory: backend
-        run: mvn -B -DskipTests package
+        run: ./gradlew :backend:bootJar -x :backend:test --no-daemon
 
       - name: Install frontend dependencies
         working-directory: frontend
@@ -101,7 +93,7 @@ jobs:
       - name: Start backend
         working-directory: backend
         run: |
-          nohup java -jar target/skillswap-market-backend-0.0.1-SNAPSHOT.jar > backend-ci.log 2> backend-ci.err &
+          nohup java -jar build/libs/skillswap-market-backend-0.0.1-SNAPSHOT.jar > backend-ci.log 2> backend-ci.err &
 
       - name: Wait for app services
         run: |
@@ -146,9 +138,6 @@ jobs:
           tail -n 80 backend/backend-ci.log || true
           echo "--- frontend-ci.log ---"
           tail -n 80 frontend/frontend-ci.log || true
-
-      - name: Make Gradle wrapper executable
-        run: chmod +x ./gradlew
 
       - name: Run tests
         id: tests
