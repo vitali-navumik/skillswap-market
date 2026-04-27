@@ -11,6 +11,7 @@ on:
       - 'frontend/**'
       - 'infra/**'
       - 'build.gradle'
+      - 'gradle.properties'
       - 'gradle/**'
       - 'gradlew'
       - 'gradlew.bat'
@@ -82,7 +83,7 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
             ~/.npm
-          key: ${{ runner.os }}-deps-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties', 'settings.gradle', 'backend/build.gradle', 'tests-framework/build.gradle', 'frontend/package-lock.json') }}
+          key: ${{ runner.os }}-deps-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties', 'settings.gradle', 'gradle.properties', 'backend/build.gradle', 'tests-framework/build.gradle', 'frontend/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-deps-
 
@@ -189,7 +190,7 @@ jobs:
           retention-days: 30
 
       - name: Upload backend logs artifact
-        if: always()
+        if: failure() || env.TESTS_FAILED == 'true'
         uses: actions/upload-artifact@v7
         with:
           name: backend-logs
@@ -200,7 +201,7 @@ jobs:
           retention-days: 14
 
       - name: Upload frontend logs artifact
-        if: always()
+        if: failure() || env.TESTS_FAILED == 'true'
         uses: actions/upload-artifact@v7
         with:
           name: frontend-logs
