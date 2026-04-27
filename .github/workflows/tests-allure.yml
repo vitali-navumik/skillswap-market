@@ -55,6 +55,8 @@ jobs:
       JWT_SECRET: skillswap-market-demo-secret-key-that-must-be-long-enough-2026
       SERVER_PORT: 8080
       ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+      API_URL: http://127.0.0.1:8080/api
+      UI_BASE_URL: http://127.0.0.1:5173
 
     steps:
       - name: Checkout repository
