@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'io.qameta.allure' version '2.12.0'
+    id 'io.qameta.allure' version '4.0.0'
 }
 
 ext {
@@ -36,6 +36,7 @@ dependencies {
     implementation 'org.junit.jupiter:junit-jupiter-api:5.11.0'
     implementation 'org.assertj:assertj-core:3.26.3'
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    implementation 'com.microsoft.playwright:playwright:1.54.0'
 
     compileOnly 'org.projectlombok:lombok:1.18.34'
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
@@ -52,9 +53,20 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    systemProperty 'playwright.cli.install', 'false'
+    environment 'PLAYWRIGHT_BROWSERS_PATH', "${rootDir}/.pw-browsers"
     testLogging {
         events "passed", "skipped", "failed"
     }
+}
+
+tasks.register('playwrightInstall', JavaExec) {
+    group = 'verification'
+    description = 'Install Playwright browsers'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.microsoft.playwright.CLI'
+    args 'install', 'chromium'
+    environment 'PLAYWRIGHT_BROWSERS_PATH', "${rootDir}/.pw-browsers"
 }
 
 allure {

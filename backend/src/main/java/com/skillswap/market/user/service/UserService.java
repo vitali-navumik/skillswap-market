@@ -95,8 +95,8 @@ public class UserService {
     }
 
     @Transactional
-    public UserProfileResponse updateUser(AppUserPrincipal principal, UUID publicId, UpdateUserRequest request) {
-        User user = findAccessibleUser(principal, publicId);
+    public UserProfileResponse updateUser(AppUserPrincipal principal, UpdateUserRequest request) {
+        User user = findAccessibleUser(principal, request.publicId());
         boolean isAdmin = principal.roles().contains(Role.ADMIN);
 
         if (request.email() != null) {

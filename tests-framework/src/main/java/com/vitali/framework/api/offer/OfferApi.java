@@ -1,6 +1,7 @@
 package com.vitali.framework.api.offer;
 
 import com.vitali.framework.api.offer.requests.CreateOfferRequest;
+import com.vitali.framework.api.offer.requests.UpdateOfferRequest;
 import com.vitali.framework.config.Config;
 import com.vitali.framework.connectors.BaseAPIRequest;
 import io.restassured.http.Method;
@@ -29,7 +30,7 @@ public final class OfferApi {
         return BaseAPIRequest.builder()
                 .baseUri(Config.API_URL)
                 .basePath(BASE_PATH)
-                .path("")
+                .path("/save")
                 .headers(headers)
                 .requestBody(request)
                 .method(Method.POST);
@@ -42,5 +43,14 @@ public final class OfferApi {
                 .path("/{publicId}")
                 .pathParams(Map.of("publicId", publicId))
                 .method(Method.GET);
+    }
+
+    public static BaseAPIRequest.BaseAPIRequestBuilder updateOffer(UpdateOfferRequest request) {
+        return BaseAPIRequest.builder()
+                .baseUri(Config.API_URL)
+                .basePath(BASE_PATH)
+                .path("/update")
+                .requestBody(request)
+                .method(Method.POST);
     }
 }

@@ -4,7 +4,6 @@ import com.skillswap.market.common.api.PageResponse;
 import com.skillswap.market.offer.dto.CreateOfferRequest;
 import com.skillswap.market.offer.dto.OfferResponse;
 import com.skillswap.market.offer.dto.UpdateOfferRequest;
-import com.skillswap.market.offer.dto.UpdateOfferStatusRequest;
 import com.skillswap.market.offer.service.OfferService;
 import com.skillswap.market.security.model.AppUserPrincipal;
 import jakarta.validation.Valid;
@@ -13,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -52,7 +50,7 @@ public class OfferController {
         return offerService.getOfferByPublicId(publicId);
     }
 
-    @PostMapping
+    @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public OfferResponse createOffer(
             @AuthenticationPrincipal AppUserPrincipal principal,
@@ -62,21 +60,11 @@ public class OfferController {
         return offerService.createOffer(principal, request, idempotencyKey);
     }
 
-    @PatchMapping("/{publicId}")
+    @PostMapping("/update")
     public OfferResponse updateOffer(
             @AuthenticationPrincipal AppUserPrincipal principal,
-            @PathVariable UUID publicId,
             @Valid @RequestBody UpdateOfferRequest request
     ) {
-        return offerService.updateOffer(principal, publicId, request);
-    }
-
-    @PatchMapping("/{publicId}/status")
-    public OfferResponse updateOfferStatus(
-            @AuthenticationPrincipal AppUserPrincipal principal,
-            @PathVariable UUID publicId,
-            @Valid @RequestBody UpdateOfferStatusRequest request
-    ) {
-        return offerService.updateOfferStatus(principal, publicId, request);
+        return offerService.updateOffer(principal, request);
     }
 }

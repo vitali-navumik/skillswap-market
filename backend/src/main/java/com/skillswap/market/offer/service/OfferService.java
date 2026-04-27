@@ -4,7 +4,6 @@ import com.skillswap.market.common.exception.ApiException;
 import com.skillswap.market.offer.dto.CreateOfferRequest;
 import com.skillswap.market.offer.dto.OfferResponse;
 import com.skillswap.market.offer.dto.UpdateOfferRequest;
-import com.skillswap.market.offer.dto.UpdateOfferStatusRequest;
 import com.skillswap.market.offer.entity.OfferStatus;
 import com.skillswap.market.offer.entity.SkillOffer;
 import com.skillswap.market.offer.repository.OfferSpecifications;
@@ -148,9 +147,9 @@ public class OfferService {
     }
 
     @Transactional
-    public OfferResponse updateOffer(AppUserPrincipal principal, UUID publicId, UpdateOfferRequest request) {
+    public OfferResponse updateOffer(AppUserPrincipal principal, UpdateOfferRequest request) {
         requireMentorOrAdmin(principal, "MENTOR role is required to update an offer");
-        SkillOffer offer = findOwnedOrAdminOffer(principal, publicId);
+        SkillOffer offer = findOwnedOrAdminOffer(principal, request.publicId());
 
         if (request.title() != null && !request.title().isBlank()) {
             offer.setTitle(request.title().trim());
@@ -174,19 +173,6 @@ public class OfferService {
             offer.setStatus(request.status());
         }
 
-        return toResponse(skillOfferRepository.save(offer));
-    }
-
-    @Transactional
-    public OfferResponse updateOfferStatus(AppUserPrincipal principal, UUID publicId, UpdateOfferStatusRequest request) {
-        SkillOffer offer = findOwnedOrAdminOffer(principal, publicId);
-        OfferStatus targetStatus = request.status();
-        if (!principal.roles().contains(Role.ADMIN)) {
-            requireRole(principal, Role.MENTOR, "MENTOR role is required to change offer status");
-            validateOwnerStatusTransition(offer.getStatus(), targetStatus);
-        }
-
-        offer.setStatus(targetStatus);
         return toResponse(skillOfferRepository.save(offer));
     }
 

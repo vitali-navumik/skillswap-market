@@ -25,7 +25,7 @@ public final class UsersApi {
         return BaseAPIRequest.builder()
                 .baseUri(Config.API_URL)
                 .basePath(BASE_PATH)
-                .path("")
+                .path("/save")
                 .requestBody(user)
                 .method(Method.POST);
     }
@@ -43,9 +43,8 @@ public final class UsersApi {
         return BaseAPIRequest.builder()
                 .baseUri(Config.API_URL)
                 .basePath(BASE_PATH)
-                .path("/{publicId}")
-                .pathParams(Map.of("publicId", user.getPublicId()))
+                .path("/update")
                 .requestBody(user)
-                .method(Method.PATCH);
+                .method(Method.POST);
     }
 }

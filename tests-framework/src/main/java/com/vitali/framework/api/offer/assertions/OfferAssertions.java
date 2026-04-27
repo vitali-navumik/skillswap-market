@@ -1,6 +1,6 @@
 package com.vitali.framework.api.offer.assertions;
 
-import com.vitali.framework.api.offer.responses.OfferResponse;
+import com.vitali.framework.api.offer.responses.BaseOfferResponse;
 import com.vitali.framework.enums.OfferStatus;
 import io.qameta.allure.Step;
 import lombok.Data;
@@ -15,7 +15,7 @@ public final class OfferAssertions {
     }
 
     @Step("Check offer data is correct")
-    public static void checkOfferDataIsCorrect(OfferResponse offer, AssertionParams params) {
+    public static void checkOfferDataIsCorrect(BaseOfferResponse offer, AssertionParams params) {
         SoftAssertions softly = new SoftAssertions();
 
         if (params.idExpected() != null && params.idExpected()) {

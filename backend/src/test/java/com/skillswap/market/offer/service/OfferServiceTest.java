@@ -3,8 +3,6 @@ package com.skillswap.market.offer.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -12,7 +10,6 @@ import com.skillswap.market.common.exception.ApiException;
 import com.skillswap.market.offer.dto.CreateOfferRequest;
 import com.skillswap.market.offer.dto.OfferResponse;
 import com.skillswap.market.offer.dto.UpdateOfferRequest;
-import com.skillswap.market.offer.dto.UpdateOfferStatusRequest;
 import com.skillswap.market.offer.entity.OfferStatus;
 import com.skillswap.market.offer.entity.SkillOffer;
 import com.skillswap.market.offer.repository.SkillOfferRepository;
@@ -153,7 +150,15 @@ class OfferServiceTest {
         when(skillOfferRepository.findByPublicId(offerPublicId)).thenReturn(java.util.Optional.of(offer));
         when(skillOfferRepository.save(any(SkillOffer.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        OfferResponse response = offerService.updateOfferStatus(mentorPrincipal, offerPublicId, new UpdateOfferStatusRequest(OfferStatus.ACTIVE));
+        OfferResponse response = offerService.updateOffer(mentorPrincipal, new UpdateOfferRequest(
+                offerPublicId,
+                null,
+                null,
+                null,
+                null,
+                null,
+                OfferStatus.ACTIVE
+        ));
 
         assertThat(response.status()).isEqualTo(OfferStatus.ACTIVE);
         verify(skillOfferRepository).save(offer);
@@ -179,7 +184,8 @@ class OfferServiceTest {
         when(skillOfferRepository.findByPublicId(offerPublicId)).thenReturn(java.util.Optional.of(offer));
         when(skillOfferRepository.save(any(SkillOffer.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        OfferResponse updated = offerService.updateOffer(adminPrincipal, offerPublicId, new UpdateOfferRequest(
+        OfferResponse updated = offerService.updateOffer(adminPrincipal, new UpdateOfferRequest(
+                offerPublicId,
                 "Admin edited title",
                 "Admin edited description",
                 "Career",

@@ -7,7 +7,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Data
-public class OfferResponse {
+public abstract class BaseOfferResponse {
     private Long id;
     private UUID publicId;
     private Long mentorId;

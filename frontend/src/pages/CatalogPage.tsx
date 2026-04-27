@@ -135,6 +135,10 @@ export function CatalogPage({ token = null, user = null, mode = "catalog" }: Cat
 
   return (
     <div className="stack gap-lg catalog-page list-page-shell">
+      <div className="page-heading">
+        <h1 data-testid="catalog-page-title">{isMyOffersMode ? "My Offers" : "Catalog"}</h1>
+      </div>
+
       <div className="filter-layout">
         <aside className="panel filter-sidebar catalog-sidebar" data-testid="catalog-filters-panel">
           <div className="stack gap-sm catalog-filter-form" data-testid="catalog-search-panel">

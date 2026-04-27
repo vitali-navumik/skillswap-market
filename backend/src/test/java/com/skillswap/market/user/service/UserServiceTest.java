@@ -52,8 +52,7 @@ class UserServiceTest {
 
         UserProfileResponse response = userService.updateUser(
                 principal(5L, Role.STUDENT),
-                user.getPublicId(),
-                new UpdateUserRequest(null, "New", "Surname", null, "Custom Alias", null, null)
+                new UpdateUserRequest(user.getPublicId(), null, "New", "Surname", null, "Custom Alias", null, null)
         );
 
         assertThat(response.firstName()).isEqualTo("New");
@@ -70,8 +69,7 @@ class UserServiceTest {
 
         UserProfileResponse response = userService.updateUser(
                 principal(6L, Role.MENTOR),
-                user.getPublicId(),
-                new UpdateUserRequest(null, "Updated", "Person", null, "   ", null, null)
+                new UpdateUserRequest(user.getPublicId(), null, "Updated", "Person", null, "   ", null, null)
         );
 
         assertThat(response.displayName()).isEqualTo("Updated Person");

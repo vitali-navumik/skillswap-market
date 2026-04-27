@@ -5,7 +5,8 @@ import com.vitali.framework.GuestActions;
 import com.vitali.framework.api.offer.assertions.OfferAssertions;
 import com.vitali.framework.api.offer.OfferActions;
 import com.vitali.framework.api.offer.requests.CreateOfferRequest;
-import com.vitali.framework.api.offer.responses.OfferResponse;
+import com.vitali.framework.api.offer.responses.CreateOfferResponse;
+import com.vitali.framework.api.offer.responses.GetOfferResponse;
 import com.vitali.framework.api.users.providers.UserRoleProvider.RoleNotAllowedToCreateOffer;
 import com.vitali.framework.connectors.ConnectorResponse;
 import com.vitali.framework.connectors.RestAssuredConnector;
@@ -40,7 +41,7 @@ class OfferCreationTests {
 
         UUID publicId = mentor.offerActions().createOfferResponse(offerRequest).getPublicId();
 
-        OfferResponse offerCreated = mentor.offerActions().getOfferResponse(publicId);
+        GetOfferResponse offerCreated = mentor.offerActions().getOfferResponse(publicId);
         OfferAssertions.checkOfferDataIsCorrect(offerCreated, new OfferAssertions.AssertionParams()
                 .mentorId(mentor.userInfo().getId())
                 .mentorPublicId(mentor.userInfo().getPublicId())
@@ -59,8 +60,8 @@ class OfferCreationTests {
         CreateOfferRequest offerRequest = CreateOfferRequest.builder().build();
         String idempotencyKey = UUID.randomUUID().toString();
 
-        OfferResponse firstOffer = mentor.offerActions().createOfferResponse(offerRequest, idempotencyKey);
-        OfferResponse secondOffer = mentor.offerActions().createOfferResponse(offerRequest, idempotencyKey);
+        CreateOfferResponse firstOffer = mentor.offerActions().createOfferResponse(offerRequest, idempotencyKey);
+        CreateOfferResponse secondOffer = mentor.offerActions().createOfferResponse(offerRequest, idempotencyKey);
 
         OfferAssertions.checkOfferDataIsCorrect(secondOffer, new OfferAssertions.AssertionParams()
                 .id(firstOffer.getId())
@@ -74,7 +75,7 @@ class OfferCreationTests {
         ActionsContainer actor = resolveUserActions(role);
         CreateOfferRequest offerRequest = CreateOfferRequest.builder().build();
 
-        ConnectorResponse<OfferResponse> response = actor.offerActions().createOffer(offerRequest);
+        ConnectorResponse<CreateOfferResponse> response = actor.offerActions().createOffer(offerRequest);
 
         CommonAssertions.checkForbidden(response);
         assertThat(response.getDataResponse())
@@ -87,7 +88,7 @@ class OfferCreationTests {
     void guestCannotCreateOfferWithoutToken() {
         CreateOfferRequest offerRequest = CreateOfferRequest.builder().build();
 
-        ConnectorResponse<OfferResponse> response = guestActions.offerActions().createOffer(offerRequest);
+        ConnectorResponse<CreateOfferResponse> response = guestActions.offerActions().createOffer(offerRequest);
 
         CommonAssertions.checkForbidden(response);
     }
@@ -97,7 +98,7 @@ class OfferCreationTests {
     void userCannotCreateOfferWithMalformedToken() {
         CreateOfferRequest offerRequest = CreateOfferRequest.builder().build();
 
-        ConnectorResponse<OfferResponse> response = offerActionsWithToken("invalid-token").createOffer(offerRequest);
+        ConnectorResponse<CreateOfferResponse> response = offerActionsWithToken("invalid-token").createOffer(offerRequest);
 
         CommonAssertions.checkForbidden(response);
     }
@@ -112,7 +113,7 @@ class OfferCreationTests {
                 java.util.Set.of("MENTOR")
         );
 
-        ConnectorResponse<OfferResponse> response = offerActionsWithToken(expiredToken).createOffer(offerRequest);
+        ConnectorResponse<CreateOfferResponse> response = offerActionsWithToken(expiredToken).createOffer(offerRequest);
 
         CommonAssertions.checkForbidden(response);
     }
@@ -127,7 +128,7 @@ class OfferCreationTests {
                 java.util.Set.of("MENTOR")
         );
 
-        ConnectorResponse<OfferResponse> response = offerActionsWithToken(invalidSignatureToken).createOffer(offerRequest);
+        ConnectorResponse<CreateOfferResponse> response = offerActionsWithToken(invalidSignatureToken).createOffer(offerRequest);
 
         CommonAssertions.checkForbidden(response);
     }

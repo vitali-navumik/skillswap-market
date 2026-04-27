@@ -1,7 +1,7 @@
 package com.skillswap.market.user.controller;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,10 +37,10 @@ class UserControllerWebMvcTest {
     private UserDetailsService userDetailsService;
 
     @Test
-    void patchUserAcceptsProfileUpdatePayload() throws Exception {
+    void updateUserAcceptsProfileUpdatePayload() throws Exception {
         UUID userPublicId = UUID.fromString("11111111-1111-4111-8111-111111111111");
         UUID walletPublicId = UUID.fromString("22222222-2222-4222-8222-222222222222");
-        org.mockito.Mockito.when(userService.updateUser(any(), org.mockito.ArgumentMatchers.eq(userPublicId), any())).thenReturn(new UserProfileResponse(
+        org.mockito.Mockito.when(userService.updateUser(any(), any())).thenReturn(new UserProfileResponse(
                 5L,
                 userPublicId,
                 walletPublicId,
@@ -54,10 +54,11 @@ class UserControllerWebMvcTest {
                 Instant.parse("2025-01-03T10:00:00Z")
         ));
 
-        mockMvc.perform(patch("/api/users/{publicId}", userPublicId)
+        mockMvc.perform(post("/api/users/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
+                                  "publicId": "11111111-1111-4111-8111-111111111111",
                                   "firstName": "Updated",
                                   "lastName": "Name",
                                   "displayName": "Updated Name"

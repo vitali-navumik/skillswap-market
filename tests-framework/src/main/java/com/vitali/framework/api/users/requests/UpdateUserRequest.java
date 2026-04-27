@@ -1,6 +1,5 @@
 package com.vitali.framework.api.users.requests;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vitali.framework.enums.UserRole;
 import com.vitali.framework.enums.UserStatus;
 import lombok.Builder;
@@ -12,7 +11,6 @@ import java.util.UUID;
 @Data
 @Builder(toBuilder = true)
 public class UpdateUserRequest {
-    @JsonIgnore
     private UUID publicId;
     private String email;
     private String firstName;

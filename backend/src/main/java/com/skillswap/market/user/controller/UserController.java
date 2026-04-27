@@ -13,7 +13,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +31,7 @@ public class UserController {
         return userService.getUsers();
     }
 
-    @PostMapping
+    @PostMapping("/save")
     @PreAuthorize("hasRole('ADMIN')")
     public UserProfileResponse createUser(
             @AuthenticationPrincipal AppUserPrincipal principal,
@@ -59,12 +58,11 @@ public class UserController {
         return userService.getUserProfile(principal, publicId);
     }
 
-    @PatchMapping("/{publicId}")
+    @PostMapping("/update")
     public UserProfileResponse updateUser(
             @AuthenticationPrincipal AppUserPrincipal principal,
-            @PathVariable UUID publicId,
             @Valid @RequestBody UpdateUserRequest request
     ) {
-        return userService.updateUser(principal, publicId, request);
+        return userService.updateUser(principal, request);
     }
 }

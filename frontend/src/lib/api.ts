@@ -105,11 +105,11 @@ export const api = {
     }
   ) {
     return request<AuthUser>(
-      `/api/users/${userPublicId}`,
+      "/api/users/update",
       {
-        method: "PATCH",
+        method: "POST",
         headers: jsonHeaders,
-        body: JSON.stringify(payload)
+        body: JSON.stringify({ publicId: userPublicId, ...payload })
       },
       token
     );
@@ -127,7 +127,7 @@ export const api = {
     }
   ) {
     return request<AuthUser>(
-      "/api/users",
+      "/api/users/save",
       {
         method: "POST",
         headers: jsonHeaders,
@@ -192,7 +192,7 @@ export const api = {
     }
   ) {
     return request<Offer>(
-      "/api/offers",
+      "/api/offers/save",
       {
         method: "POST",
         headers: jsonHeaders,
@@ -211,26 +211,15 @@ export const api = {
       category?: string;
       durationMinutes?: number;
       priceCredits?: number;
+      status?: Offer["status"];
     }
   ) {
     return request<Offer>(
-      `/api/offers/${offerPublicId}`,
+      "/api/offers/update",
       {
-        method: "PATCH",
+        method: "POST",
         headers: jsonHeaders,
-        body: JSON.stringify(payload)
-      },
-      token
-    );
-  },
-
-  updateOfferStatus(token: string, offerPublicId: string, status: Offer["status"]) {
-    return request<Offer>(
-      `/api/offers/${offerPublicId}/status`,
-      {
-        method: "PATCH",
-        headers: jsonHeaders,
-        body: JSON.stringify({ status })
+        body: JSON.stringify({ publicId: offerPublicId, ...payload })
       },
       token
     );
