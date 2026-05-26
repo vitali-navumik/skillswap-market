@@ -226,6 +226,7 @@ jobs:
 
       - name: Build report portal
         if: always()
+        shell: bash
         run: |
           set -euo pipefail
 
@@ -513,6 +514,7 @@ jobs:
 
       - name: Persist report portal history
         if: always()
+        shell: bash
         run: |
           set -euo pipefail
           cd pages-site
