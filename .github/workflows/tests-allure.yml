@@ -239,15 +239,13 @@ jobs:
 
           REPORT_SOURCE="tests-framework/build/reports/allure-report/allureReport"
           PAGES_DIR="pages-site"
-          HISTORY_DIR="pages-history"
 
-          rm -rf "$PAGES_DIR" "$HISTORY_DIR"
-          mkdir -p "$PAGES_DIR"
+          rm -rf "$PAGES_DIR"
 
           if git ls-remote --exit-code --heads origin gh-pages >/dev/null 2>&1; then
-            git clone --depth=1 --branch gh-pages "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "$HISTORY_DIR"
-            cp -a "$HISTORY_DIR/." "$PAGES_DIR/"
-            rm -rf "$PAGES_DIR/.git"
+            git clone --depth=1 --branch gh-pages "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "$PAGES_DIR"
+          else
+            mkdir -p "$PAGES_DIR"
           fi
 
           if [ "${{ github.event_name }}" = "schedule" ]; then
@@ -321,6 +319,7 @@ jobs:
           const previousRows = fs.existsSync(rowsPath)
             ? JSON.parse(fs.readFileSync(rowsPath, 'utf8'))
             : [];
+          console.log(`Previous report rows: ${previousRows.length}`);
 
           const current = {
             status,
@@ -340,6 +339,7 @@ jobs:
           };
 
           const rows = [current, ...previousRows.filter((row) => row.runId !== current.runId)].slice(0, 20);
+          console.log(`Current report rows: ${rows.length}`);
           fs.writeFileSync(rowsPath, JSON.stringify(rows, null, 2));
 
           const badgeClass = (value) => ({
@@ -525,13 +525,23 @@ jobs:
         run: |
           set -euo pipefail
           cd pages-site
-          git init
-          git checkout -b gh-pages
+          if [ ! -d .git ]; then
+            git init
+            git checkout -b gh-pages
+          else
+            git checkout gh-pages
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "Update test report portal for run $GITHUB_RUN_ID"
-          git push --force "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" gh-pages
+          if git diff --cached --quiet; then
+            echo "No report portal changes to commit"
+          else
+            git commit -m "Update test report portal for run $GITHUB_RUN_ID"
+            git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:gh-pages
+          fi
+          cd ..
+          rm -rf pages-site/.git
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
