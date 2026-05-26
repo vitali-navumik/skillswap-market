@@ -242,9 +242,11 @@ jobs:
 
           rm -rf "$PAGES_DIR"
 
-          if git ls-remote --exit-code --heads origin gh-pages >/dev/null 2>&1; then
-            git clone --depth=1 --branch gh-pages "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "$PAGES_DIR"
+          if git clone --depth=1 --branch gh-pages "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "$PAGES_DIR"; then
+            echo "Cloned existing gh-pages report portal history"
           else
+            echo "No existing gh-pages report portal history found; starting a new portal"
+            rm -rf "$PAGES_DIR"
             mkdir -p "$PAGES_DIR"
           fi
 
