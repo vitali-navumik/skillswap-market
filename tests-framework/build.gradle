@@ -53,11 +53,22 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    outputs.upToDateWhen { false }
     systemProperty 'playwright.cli.install', 'false'
+    systemProperty 'allure.results.directory', layout.buildDirectory.dir('allure-results').get().asFile.absolutePath
     environment 'PLAYWRIGHT_BROWSERS_PATH', System.getenv('PLAYWRIGHT_BROWSERS_PATH') ?: "${rootDir}/.pw-browsers"
+    doFirst {
+        delete layout.buildDirectory.dir('allure-results').get().asFile
+        delete layout.buildDirectory.dir('reports/allure-report').get().asFile
+        delete file("$projectDir/allure-results")
+    }
     testLogging {
         events "passed", "skipped", "failed"
     }
+}
+
+tasks.named('allureReport') {
+    dependsOn test
 }
 
 tasks.register('playwrightInstall', JavaExec) {
