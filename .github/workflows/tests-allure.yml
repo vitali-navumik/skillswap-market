@@ -245,8 +245,7 @@ jobs:
           mkdir -p "$PAGES_DIR"
 
           if git ls-remote --exit-code --heads origin gh-pages >/dev/null 2>&1; then
-            git fetch origin gh-pages --depth=1
-            git worktree add "$HISTORY_DIR" origin/gh-pages
+            git clone --depth=1 --branch gh-pages "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "$HISTORY_DIR"
             cp -a "$HISTORY_DIR/." "$PAGES_DIR/"
             rm -rf "$PAGES_DIR/.git"
           fi
@@ -518,6 +517,7 @@ jobs:
             | xargs -r rm -rf
         env:
           MANUAL_TEST_TYPE: ${{ github.event.inputs.test_type || '' }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Persist report portal history
         if: always()
