@@ -43,10 +43,6 @@
         margin: 0;
         color: var(--muted);
       }
-      .latest {
-        color: var(--text);
-        font-weight: 650;
-      }
       .table-wrap {
         overflow-x: auto;
         background: var(--panel);
@@ -112,9 +108,8 @@
       <header>
         <div>
           <h1>SkillSwap Market Test Reports</h1>
-          <p>Latest 20 GitHub Actions test runs with separate Allure reports.</p>
+          <p>Latest 15 GitHub Actions test runs with separate Allure reports. The first row is the newest run.</p>
         </div>
-        <a class="latest" href="latest/index.html">Open latest report</a>
       </header>
       <div class="table-wrap">
         <table>
@@ -135,6 +130,21 @@
             </tr>
           </thead>
           <tbody>
+  <tr>
+    <td><span class="status status-passed">PASSED</span></td>
+    <td>smoke</td>
+    <td>2026-05-26 20:37 UTC</td>
+    <td>vitali-navumik</td>
+    <td>main</td>
+    <td><code>e02aeb3</code></td>
+    <td class="num passed">54</td>
+    <td class="num failed">0</td>
+    <td class="num broken">0</td>
+    <td class="num">0</td>
+    <td class="num">54</td>
+    <td><a href="reports/2026-05-26_20-37-50_smoke_e02aeb3/index.html">Open</a></td>
+  </tr>
+
   <tr>
     <td><span class="status status-passed">PASSED</span></td>
     <td>manual</td>
