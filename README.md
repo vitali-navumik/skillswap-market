@@ -137,13 +137,13 @@ What happens on each push to `main`:
 - all tests from [tests-framework](/C:/Users/Vitali/IdeaProjects/skillswap-market/tests-framework) run
 - Allure report is generated
 - raw results, HTML report, and backend logs are uploaded as workflow artifacts
-- a GitHub Pages test report portal is published with links to the latest 20 Allure reports
+- a GitHub Pages test report portal is published with links to the latest 15 Allure reports
 
 Where to look:
 - `Actions` tab for execution logs and artifacts
 - `Pages` deployment link for the test report portal
 - portal rows include status, run type, date, triggering user, branch, commit, and passed/failed/broken/skipped totals
-- `Open latest report` points to the newest Allure report
+- the first portal row is the newest run; use its `Open` link for the latest Allure report
 
 Required GitHub configuration:
 - `Settings -> Pages -> Source: GitHub Actions`
