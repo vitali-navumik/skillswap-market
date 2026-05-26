@@ -224,6 +224,13 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
+      - name: Install git for report portal history
+        if: always()
+        shell: bash
+        run: |
+          apt-get update
+          apt-get install -y git
+
       - name: Build report portal
         if: always()
         shell: bash
