@@ -137,11 +137,13 @@ What happens on each push to `main`:
 - all tests from [tests-framework](/C:/Users/Vitali/IdeaProjects/skillswap-market/tests-framework) run
 - Allure report is generated
 - raw results, HTML report, and backend logs are uploaded as workflow artifacts
-- the HTML Allure report is published to GitHub Pages
+- a GitHub Pages test report portal is published with links to the latest 20 Allure reports
 
 Where to look:
 - `Actions` tab for execution logs and artifacts
-- `Pages` deployment link for the published Allure HTML report
+- `Pages` deployment link for the test report portal
+- portal rows include status, run type, date, triggering user, branch, commit, and passed/failed/broken/skipped totals
+- `Open latest report` points to the newest Allure report
 
 Required GitHub configuration:
 - `Settings -> Pages -> Source: GitHub Actions`
@@ -152,7 +154,12 @@ Manual run:
 - select `Tests And Allure Report`
 - click `Run workflow`
 - choose branch `main`
+- choose `test_type`: `smoke`, `regression`, `manual`, or `scheduled`
 - start the workflow manually when you want a rerun without a relevant code change
+
+Scheduled run:
+- the workflow also runs daily at `06:00 UTC`
+- scheduled runs are shown in the portal as `scheduled`
 
 ## Current Direction
 
