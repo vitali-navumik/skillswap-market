@@ -1,6 +1,22 @@
 [
   {
     "status": "passed",
+    "type": "scheduled",
+    "date": "2026-05-27 10:06 UTC",
+    "actor": "vitali-navumik",
+    "branch": "main",
+    "commit": "e02aeb3",
+    "runId": "26504576056",
+    "runNumber": "31",
+    "url": "reports/2026-05-27_10-06-46_scheduled_e02aeb3/index.html",
+    "passed": 54,
+    "failed": 0,
+    "broken": 0,
+    "skipped": 0,
+    "total": 54
+  },
+  {
+    "status": "passed",
     "type": "smoke",
     "date": "2026-05-26 20:37 UTC",
     "actor": "vitali-navumik",
