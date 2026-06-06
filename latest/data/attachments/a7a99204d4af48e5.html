@@ -1,0 +1,40 @@
+<div>POST to http://127.0.0.1:8080/api/users/save</div>
+
+    <h4>Body</h4>
+    <div>
+    <pre class="preformated-text">
+{
+    &quot;email&quot;: &quot;gavin.ankunding.1780735350435.f99ac724@test.local&quot;,
+    &quot;password&quot;: &quot;Password123&quot;,
+    &quot;firstName&quot;: &quot;AutoCeleste&quot;,
+    &quot;lastName&quot;: &quot;AutoBarrows&quot;,
+    &quot;roles&quot;: [
+        &quot;STUDENT&quot;
+    ],
+    &quot;status&quot;: &quot;ACTIVE&quot;
+}    </pre>
+    </div>
+
+    <h4>Headers</h4>
+    <div>
+            <div>Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjaGFyaXNzZS50ZXJyeS4xNzgwNzM1MzQ5ODU0LmIyYTJmMzdlQHRlc3QubG9jYWwiLCJyb2xlcyI6WyJNRU5UT1IiXSwidXNlcklkIjozNCwiaWF0IjoxNzgwNzM1MzUwLCJleHAiOjE3ODA4MjE3NTB9.RFb9qzWXlof403hUSEnLbovREbCFMFkyEPZ9SzdRL6sGkz1EB1oU4dWU9s3kZ6ZO</div>
+            <div>Accept: */*</div>
+            <div>Content-Type: application/json</div>
+    </div>
+
+
+
+    <h4>Curl</h4>
+    <div>
+        curl -v -X POST &#39;http://127.0.0.1:8080/api/users/save&#39; -H &#39;Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjaGFyaXNzZS50ZXJyeS4xNzgwNzM1MzQ5ODU0LmIyYTJmMzdlQHRlc3QubG9jYWwiLCJyb2xlcyI6WyJNRU5UT1IiXSwidXNlcklkIjozNCwiaWF0IjoxNzgwNzM1MzUwLCJleHAiOjE3ODA4MjE3NTB9.RFb9qzWXlof403hUSEnLbovREbCFMFkyEPZ9SzdRL6sGkz1EB1oU4dWU9s3kZ6ZO&#39; -H &#39;Accept: */*&#39; -H &#39;Content-Type: application/json&#39; -d &#39;{
+    &quot;email&quot;: &quot;gavin.ankunding.1780735350435.f99ac724@test.local&quot;,
+    &quot;password&quot;: &quot;Password123&quot;,
+    &quot;firstName&quot;: &quot;AutoCeleste&quot;,
+    &quot;lastName&quot;: &quot;AutoBarrows&quot;,
+    &quot;roles&quot;: [
+        &quot;STUDENT&quot;
+    ],
+    &quot;status&quot;: &quot;ACTIVE&quot;
+}&#39;
+    </div>
+
