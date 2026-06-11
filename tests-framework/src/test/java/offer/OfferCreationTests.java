@@ -70,7 +70,7 @@ class OfferCreationTests {
 
     @ParameterizedTest
     @EnumSource(RoleNotAllowedToCreateOffer.class)
-    @DisplayName("User without mentor role cannot create offer")
+    @DisplayName("User without Mentor role cannot create offer")
     void userWithoutMentorRoleCannotCreateOffer(RoleNotAllowedToCreateOffer role) {
         ActionsContainer actor = resolveUserActions(role);
         CreateOfferRequest offerRequest = CreateOfferRequest.builder().build();
