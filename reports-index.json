@@ -2,6 +2,22 @@
   {
     "status": "passed",
     "type": "scheduled",
+    "date": "2026-06-25 09:34 UTC",
+    "actor": "vitali-navumik",
+    "branch": "main",
+    "commit": "524a641",
+    "runId": "28160731043",
+    "runNumber": "61",
+    "url": "reports/2026-06-25_09-34-20_scheduled_524a641/index.html",
+    "passed": 55,
+    "failed": 0,
+    "broken": 0,
+    "skipped": 0,
+    "total": 55
+  },
+  {
+    "status": "passed",
+    "type": "scheduled",
     "date": "2026-06-24 09:41 UTC",
     "actor": "vitali-navumik",
     "branch": "main",
@@ -222,21 +238,5 @@
     "broken": 0,
     "skipped": 0,
     "total": 55
-  },
-  {
-    "status": "passed",
-    "type": "scheduled",
-    "date": "2026-06-11 10:48 UTC",
-    "actor": "vitali-navumik",
-    "branch": "main",
-    "commit": "e02aeb3",
-    "runId": "27341421775",
-    "runNumber": "46",
-    "url": "reports/2026-06-11_10-48-15_scheduled_e02aeb3/index.html",
-    "passed": 54,
-    "failed": 0,
-    "broken": 0,
-    "skipped": 0,
-    "total": 54
   }
 ]
