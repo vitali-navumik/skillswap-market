@@ -1,0 +1,36 @@
+<div>POST to http://127.0.0.1:8080/api/offers/save</div>
+
+    <h4>Body</h4>
+    <div>
+    <pre class="preformated-text">
+{
+    &quot;title&quot;: &quot;Mentoring: Specialist 1782466692743&quot;,
+    &quot;description&quot;: &quot;Practice session on Self-motivated with hands-on examples and feedback.&quot;,
+    &quot;category&quot;: &quot;QA Automation&quot;,
+    &quot;durationMinutes&quot;: 60,
+    &quot;priceCredits&quot;: 25,
+    &quot;status&quot;: &quot;DRAFT&quot;
+}    </pre>
+    </div>
+
+    <h4>Headers</h4>
+    <div>
+            <div>Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJwYXRyaWNpYS52YW5kZXJ2b3J0LjE3ODI0NjY2OTIwNjAuZDE3ZGUxZWZAdGVzdC5sb2NhbCIsInJvbGVzIjpbIk1FTlRPUiJdLCJ1c2VySWQiOjE2LCJpYXQiOjE3ODI0NjY2OTIsImV4cCI6MTc4MjU1MzA5Mn0.3tgUvw9Ap2tZywkg3rBjEmOo1iulk0ryb14q1cULiiZxm8OZveDy6hgZsZcR3GnB</div>
+            <div>Accept: */*</div>
+            <div>Content-Type: application/json</div>
+    </div>
+
+
+
+    <h4>Curl</h4>
+    <div>
+        curl -v -X POST &#39;http://127.0.0.1:8080/api/offers/save&#39; -H &#39;Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJwYXRyaWNpYS52YW5kZXJ2b3J0LjE3ODI0NjY2OTIwNjAuZDE3ZGUxZWZAdGVzdC5sb2NhbCIsInJvbGVzIjpbIk1FTlRPUiJdLCJ1c2VySWQiOjE2LCJpYXQiOjE3ODI0NjY2OTIsImV4cCI6MTc4MjU1MzA5Mn0.3tgUvw9Ap2tZywkg3rBjEmOo1iulk0ryb14q1cULiiZxm8OZveDy6hgZsZcR3GnB&#39; -H &#39;Accept: */*&#39; -H &#39;Content-Type: application/json&#39; -d &#39;{
+    &quot;title&quot;: &quot;Mentoring: Specialist 1782466692743&quot;,
+    &quot;description&quot;: &quot;Practice session on Self-motivated with hands-on examples and feedback.&quot;,
+    &quot;category&quot;: &quot;QA Automation&quot;,
+    &quot;durationMinutes&quot;: 60,
+    &quot;priceCredits&quot;: 25,
+    &quot;status&quot;: &quot;DRAFT&quot;
+}&#39;
+    </div>
+
