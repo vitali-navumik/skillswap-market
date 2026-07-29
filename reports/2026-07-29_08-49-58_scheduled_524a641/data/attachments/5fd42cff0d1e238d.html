@@ -1,0 +1,44 @@
+<div>POST to http://127.0.0.1:8080/api/users/update</div>
+
+    <h4>Body</h4>
+    <div>
+    <pre class="preformated-text">
+{
+    &quot;publicId&quot;: &quot;f7a11247-b731-495b-82da-d7ed9562f4dc&quot;,
+    &quot;email&quot;: &quot;clint.kautzer.1785314968224.c359a731@test.local&quot;,
+    &quot;firstName&quot;: &quot;UpdatedFirstName&quot;,
+    &quot;lastName&quot;: &quot;AutoPaucek&quot;,
+    &quot;password&quot;: null,
+    &quot;displayName&quot;: &quot;AutoDamian AutoPaucek&quot;,
+    &quot;roles&quot;: [
+        &quot;STUDENT&quot;
+    ],
+    &quot;status&quot;: &quot;ACTIVE&quot;
+}    </pre>
+    </div>
+
+    <h4>Headers</h4>
+    <div>
+            <div>Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJtYXJpbi5yZWluZ2VyLjE3ODUzMTQ5NjI3NTcuMDY3ZDNkNjRAdGVzdC5sb2NhbCIsInVzZXJJZCI6MTAsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTc4NTMxNDk2OCwiZXhwIjoxNzg1NDAxMzY4fQ.ybI6W0YD_zzdjPVlst1uK5Gstt76vijatFRDkSCkx5-8RqMIfltVEn7s4UOxtYyV</div>
+            <div>Accept: */*</div>
+            <div>Content-Type: application/json</div>
+    </div>
+
+
+
+    <h4>Curl</h4>
+    <div>
+        curl -v -X POST &#39;http://127.0.0.1:8080/api/users/update&#39; -H &#39;Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJtYXJpbi5yZWluZ2VyLjE3ODUzMTQ5NjI3NTcuMDY3ZDNkNjRAdGVzdC5sb2NhbCIsInVzZXJJZCI6MTAsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTc4NTMxNDk2OCwiZXhwIjoxNzg1NDAxMzY4fQ.ybI6W0YD_zzdjPVlst1uK5Gstt76vijatFRDkSCkx5-8RqMIfltVEn7s4UOxtYyV&#39; -H &#39;Accept: */*&#39; -H &#39;Content-Type: application/json&#39; -d &#39;{
+    &quot;publicId&quot;: &quot;f7a11247-b731-495b-82da-d7ed9562f4dc&quot;,
+    &quot;email&quot;: &quot;clint.kautzer.1785314968224.c359a731@test.local&quot;,
+    &quot;firstName&quot;: &quot;UpdatedFirstName&quot;,
+    &quot;lastName&quot;: &quot;AutoPaucek&quot;,
+    &quot;password&quot;: null,
+    &quot;displayName&quot;: &quot;AutoDamian AutoPaucek&quot;,
+    &quot;roles&quot;: [
+        &quot;STUDENT&quot;
+    ],
+    &quot;status&quot;: &quot;ACTIVE&quot;
+}&#39;
+    </div>
+
