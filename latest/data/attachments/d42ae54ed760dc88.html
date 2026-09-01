@@ -1,0 +1,44 @@
+<div>POST to http://127.0.0.1:8080/api/users/update</div>
+
+    <h4>Body</h4>
+    <div>
+    <pre class="preformated-text">
+{
+    &quot;publicId&quot;: &quot;8a63c2eb-a179-4cdf-9a3a-603e23ea1527&quot;,
+    &quot;email&quot;: &quot;ismael.oconner.1788261969501.6279c979@test.local&quot;,
+    &quot;firstName&quot;: &quot;AutoIsela&quot;,
+    &quot;lastName&quot;: &quot;AutoHermiston&quot;,
+    &quot;password&quot;: null,
+    &quot;displayName&quot;: &quot;AutoIsela AutoHermiston&quot;,
+    &quot;roles&quot;: [
+        &quot;STUDENT&quot;
+    ],
+    &quot;status&quot;: &quot;INACTIVE&quot;
+}    </pre>
+    </div>
+
+    <h4>Headers</h4>
+    <div>
+            <div>Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJvc2Nhci5rb3ZhY2VrLjE3ODgyNjE5NjkwMTAuNTk0ZmI2NWVAdGVzdC5sb2NhbCIsInVzZXJJZCI6MzYsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTc4ODI2MTk2OSwiZXhwIjoxNzg4MzQ4MzY5fQ.S1NuwjGvgNqraKfutTMIozCkpJxLnrBGiMjaR4otNn_G31Gyi-foFYSSBs4WN5eP</div>
+            <div>Accept: */*</div>
+            <div>Content-Type: application/json</div>
+    </div>
+
+
+
+    <h4>Curl</h4>
+    <div>
+        curl -v -X POST &#39;http://127.0.0.1:8080/api/users/update&#39; -H &#39;Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJvc2Nhci5rb3ZhY2VrLjE3ODgyNjE5NjkwMTAuNTk0ZmI2NWVAdGVzdC5sb2NhbCIsInVzZXJJZCI6MzYsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTc4ODI2MTk2OSwiZXhwIjoxNzg4MzQ4MzY5fQ.S1NuwjGvgNqraKfutTMIozCkpJxLnrBGiMjaR4otNn_G31Gyi-foFYSSBs4WN5eP&#39; -H &#39;Accept: */*&#39; -H &#39;Content-Type: application/json&#39; -d &#39;{
+    &quot;publicId&quot;: &quot;8a63c2eb-a179-4cdf-9a3a-603e23ea1527&quot;,
+    &quot;email&quot;: &quot;ismael.oconner.1788261969501.6279c979@test.local&quot;,
+    &quot;firstName&quot;: &quot;AutoIsela&quot;,
+    &quot;lastName&quot;: &quot;AutoHermiston&quot;,
+    &quot;password&quot;: null,
+    &quot;displayName&quot;: &quot;AutoIsela AutoHermiston&quot;,
+    &quot;roles&quot;: [
+        &quot;STUDENT&quot;
+    ],
+    &quot;status&quot;: &quot;INACTIVE&quot;
+}&#39;
+    </div>
+
