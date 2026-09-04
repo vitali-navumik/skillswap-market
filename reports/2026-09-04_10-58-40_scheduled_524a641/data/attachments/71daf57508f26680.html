@@ -1,0 +1,44 @@
+<div>POST to http://127.0.0.1:8080/api/users/update</div>
+
+    <h4>Body</h4>
+    <div>
+    <pre class="preformated-text">
+{
+    &quot;publicId&quot;: &quot;e6b92007-d5d2-40d7-8b3c-162315f850ba&quot;,
+    &quot;email&quot;: &quot;updated.george.olson.1788519497965.550093c5@test.local&quot;,
+    &quot;firstName&quot;: &quot;AutoLeonard&quot;,
+    &quot;lastName&quot;: &quot;AutoLeffler&quot;,
+    &quot;password&quot;: null,
+    &quot;displayName&quot;: &quot;AutoLeonard AutoLeffler&quot;,
+    &quot;roles&quot;: [
+        &quot;STUDENT&quot;
+    ],
+    &quot;status&quot;: &quot;ACTIVE&quot;
+}    </pre>
+    </div>
+
+    <h4>Headers</h4>
+    <div>
+            <div>Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJtZW5keS53eW1hbi4xNzg4NTE5NDk3Mjg2LjI1YjMzZjBiQHRlc3QubG9jYWwiLCJ1c2VySWQiOjIyLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE3ODg1MTk0OTcsImV4cCI6MTc4ODYwNTg5N30.ccIW7J2U78-wSVsg26_98nHmpaV9KfxQSagbsw9X2Hkr72e9fnFDnKvAdXA52xpD</div>
+            <div>Accept: */*</div>
+            <div>Content-Type: application/json</div>
+    </div>
+
+
+
+    <h4>Curl</h4>
+    <div>
+        curl -v -X POST &#39;http://127.0.0.1:8080/api/users/update&#39; -H &#39;Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJtZW5keS53eW1hbi4xNzg4NTE5NDk3Mjg2LjI1YjMzZjBiQHRlc3QubG9jYWwiLCJ1c2VySWQiOjIyLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE3ODg1MTk0OTcsImV4cCI6MTc4ODYwNTg5N30.ccIW7J2U78-wSVsg26_98nHmpaV9KfxQSagbsw9X2Hkr72e9fnFDnKvAdXA52xpD&#39; -H &#39;Accept: */*&#39; -H &#39;Content-Type: application/json&#39; -d &#39;{
+    &quot;publicId&quot;: &quot;e6b92007-d5d2-40d7-8b3c-162315f850ba&quot;,
+    &quot;email&quot;: &quot;updated.george.olson.1788519497965.550093c5@test.local&quot;,
+    &quot;firstName&quot;: &quot;AutoLeonard&quot;,
+    &quot;lastName&quot;: &quot;AutoLeffler&quot;,
+    &quot;password&quot;: null,
+    &quot;displayName&quot;: &quot;AutoLeonard AutoLeffler&quot;,
+    &quot;roles&quot;: [
+        &quot;STUDENT&quot;
+    ],
+    &quot;status&quot;: &quot;ACTIVE&quot;
+}&#39;
+    </div>
+
