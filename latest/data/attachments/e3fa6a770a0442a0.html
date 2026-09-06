@@ -1,0 +1,44 @@
+<div>POST to http://127.0.0.1:8080/api/users/update</div>
+
+    <h4>Body</h4>
+    <div>
+    <pre class="preformated-text">
+{
+    &quot;publicId&quot;: &quot;99f43cee-2444-41d4-97f7-418b9fa067d8&quot;,
+    &quot;email&quot;: &quot;patrice.olson.1788691151722.6c6840cf@test.local&quot;,
+    &quot;firstName&quot;: &quot;AutoMalena&quot;,
+    &quot;lastName&quot;: &quot;AutoSawayn&quot;,
+    &quot;password&quot;: null,
+    &quot;displayName&quot;: &quot;AutoMalena AutoSawayn&quot;,
+    &quot;roles&quot;: [
+        &quot;STUDENT&quot;
+    ],
+    &quot;status&quot;: &quot;ACTIVE&quot;
+}    </pre>
+    </div>
+
+    <h4>Headers</h4>
+    <div>
+            <div>Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJwYXRyaWNlLm9sc29uLjE3ODg2OTExNTE3MjIuNmM2ODQwY2ZAdGVzdC5sb2NhbCIsInVzZXJJZCI6NDQsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTc4ODY5MTE1MiwiZXhwIjoxNzg4Nzc3NTUyfQ.k5UGUEC54M-576vq5l5Ul-hr5ugpObSpBsRgrM004c7v9hwNxjgHX559zfEj8bMB</div>
+            <div>Accept: */*</div>
+            <div>Content-Type: application/json</div>
+    </div>
+
+
+
+    <h4>Curl</h4>
+    <div>
+        curl -v -X POST &#39;http://127.0.0.1:8080/api/users/update&#39; -H &#39;Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJwYXRyaWNlLm9sc29uLjE3ODg2OTExNTE3MjIuNmM2ODQwY2ZAdGVzdC5sb2NhbCIsInVzZXJJZCI6NDQsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTc4ODY5MTE1MiwiZXhwIjoxNzg4Nzc3NTUyfQ.k5UGUEC54M-576vq5l5Ul-hr5ugpObSpBsRgrM004c7v9hwNxjgHX559zfEj8bMB&#39; -H &#39;Accept: */*&#39; -H &#39;Content-Type: application/json&#39; -d &#39;{
+    &quot;publicId&quot;: &quot;99f43cee-2444-41d4-97f7-418b9fa067d8&quot;,
+    &quot;email&quot;: &quot;patrice.olson.1788691151722.6c6840cf@test.local&quot;,
+    &quot;firstName&quot;: &quot;AutoMalena&quot;,
+    &quot;lastName&quot;: &quot;AutoSawayn&quot;,
+    &quot;password&quot;: null,
+    &quot;displayName&quot;: &quot;AutoMalena AutoSawayn&quot;,
+    &quot;roles&quot;: [
+        &quot;STUDENT&quot;
+    ],
+    &quot;status&quot;: &quot;ACTIVE&quot;
+}&#39;
+    </div>
+
