@@ -1,0 +1,44 @@
+<div>POST to http://127.0.0.1:8080/api/users/update</div>
+
+    <h4>Body</h4>
+    <div>
+    <pre class="preformated-text">
+{
+    &quot;publicId&quot;: &quot;e90249b8-1467-4426-8f72-d22e645ef58d&quot;,
+    &quot;email&quot;: &quot;freddy.greenholt.1795626040953.1b9922c9@test.local&quot;,
+    &quot;firstName&quot;: &quot;AutoLeandro&quot;,
+    &quot;lastName&quot;: &quot;UpdatedLastName&quot;,
+    &quot;password&quot;: null,
+    &quot;displayName&quot;: &quot;AutoLeandro AutoSenger&quot;,
+    &quot;roles&quot;: [
+        &quot;STUDENT&quot;
+    ],
+    &quot;status&quot;: &quot;ACTIVE&quot;
+}    </pre>
+    </div>
+
+    <h4>Headers</h4>
+    <div>
+            <div>Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJtYXJjZWxsdXMuc2Nob3dhbHRlci4xNzk1NjI2MDQwNTcwLmRkN2Q5YzkzQHRlc3QubG9jYWwiLCJ1c2VySWQiOjE0LCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE3OTU2MjYwNDAsImV4cCI6MTc5NTcxMjQ0MH0.H00VqOIreBLDMMPaqNCc1faGHWmcqWwAf7-n7gkQKDN3FME1ABt7e1Z-h4lgyFXm</div>
+            <div>Accept: */*</div>
+            <div>Content-Type: application/json</div>
+    </div>
+
+
+
+    <h4>Curl</h4>
+    <div>
+        curl -v -X POST &#39;http://127.0.0.1:8080/api/users/update&#39; -H &#39;Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJtYXJjZWxsdXMuc2Nob3dhbHRlci4xNzk1NjI2MDQwNTcwLmRkN2Q5YzkzQHRlc3QubG9jYWwiLCJ1c2VySWQiOjE0LCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE3OTU2MjYwNDAsImV4cCI6MTc5NTcxMjQ0MH0.H00VqOIreBLDMMPaqNCc1faGHWmcqWwAf7-n7gkQKDN3FME1ABt7e1Z-h4lgyFXm&#39; -H &#39;Accept: */*&#39; -H &#39;Content-Type: application/json&#39; -d &#39;{
+    &quot;publicId&quot;: &quot;e90249b8-1467-4426-8f72-d22e645ef58d&quot;,
+    &quot;email&quot;: &quot;freddy.greenholt.1795626040953.1b9922c9@test.local&quot;,
+    &quot;firstName&quot;: &quot;AutoLeandro&quot;,
+    &quot;lastName&quot;: &quot;UpdatedLastName&quot;,
+    &quot;password&quot;: null,
+    &quot;displayName&quot;: &quot;AutoLeandro AutoSenger&quot;,
+    &quot;roles&quot;: [
+        &quot;STUDENT&quot;
+    ],
+    &quot;status&quot;: &quot;ACTIVE&quot;
+}&#39;
+    </div>
+
