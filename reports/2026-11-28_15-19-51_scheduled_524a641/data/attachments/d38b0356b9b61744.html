@@ -1,0 +1,44 @@
+<div>POST to http://127.0.0.1:8080/api/users/update</div>
+
+    <h4>Body</h4>
+    <div>
+    <pre class="preformated-text">
+{
+    &quot;publicId&quot;: &quot;334d0888-ab73-43a1-8fa5-9105598b6975&quot;,
+    &quot;email&quot;: &quot;updated.darin.homenick.1795879161882.c0be1ce2@test.local&quot;,
+    &quot;firstName&quot;: &quot;AutoRudolph&quot;,
+    &quot;lastName&quot;: &quot;AutoParker&quot;,
+    &quot;password&quot;: null,
+    &quot;displayName&quot;: &quot;AutoRudolph AutoParker&quot;,
+    &quot;roles&quot;: [
+        &quot;STUDENT&quot;
+    ],
+    &quot;status&quot;: &quot;ACTIVE&quot;
+}    </pre>
+    </div>
+
+    <h4>Headers</h4>
+    <div>
+            <div>Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJkZXZpbi5oZXR0aW5nZXIuMTc5NTg3OTE2MTIwNC45NmM4MTA4OEB0ZXN0LmxvY2FsIiwidXNlcklkIjoyMiwicm9sZXMiOlsiQURNSU4iXSwiaWF0IjoxNzk1ODc5MTYxLCJleHAiOjE3OTU5NjU1NjF9.QIAc-_mIACbxO26vvhsMuJxU6q9lBtxExVRkrlf1k1t3l8Efw28o0MvvnJyfSm1J</div>
+            <div>Accept: */*</div>
+            <div>Content-Type: application/json</div>
+    </div>
+
+
+
+    <h4>Curl</h4>
+    <div>
+        curl -v -X POST &#39;http://127.0.0.1:8080/api/users/update&#39; -H &#39;Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJkZXZpbi5oZXR0aW5nZXIuMTc5NTg3OTE2MTIwNC45NmM4MTA4OEB0ZXN0LmxvY2FsIiwidXNlcklkIjoyMiwicm9sZXMiOlsiQURNSU4iXSwiaWF0IjoxNzk1ODc5MTYxLCJleHAiOjE3OTU5NjU1NjF9.QIAc-_mIACbxO26vvhsMuJxU6q9lBtxExVRkrlf1k1t3l8Efw28o0MvvnJyfSm1J&#39; -H &#39;Accept: */*&#39; -H &#39;Content-Type: application/json&#39; -d &#39;{
+    &quot;publicId&quot;: &quot;334d0888-ab73-43a1-8fa5-9105598b6975&quot;,
+    &quot;email&quot;: &quot;updated.darin.homenick.1795879161882.c0be1ce2@test.local&quot;,
+    &quot;firstName&quot;: &quot;AutoRudolph&quot;,
+    &quot;lastName&quot;: &quot;AutoParker&quot;,
+    &quot;password&quot;: null,
+    &quot;displayName&quot;: &quot;AutoRudolph AutoParker&quot;,
+    &quot;roles&quot;: [
+        &quot;STUDENT&quot;
+    ],
+    &quot;status&quot;: &quot;ACTIVE&quot;
+}&#39;
+    </div>
+
